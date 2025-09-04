@@ -1,0 +1,47 @@
+<div role="tabpanel" class="tab-pane config-section" id="challenges">
+  <form method="POST" autocomplete="off" class="w-100">
+    <div class="form-group">
+      <label for="view_self_submissions">Allow users to see their own submissions?</label>
+      <select name="view_self_submissions" class="form-control custom-select">
+        <option value="true" {% if view_self_submissions %}selected{% endif %}>Yes</option>
+        <option value="false" {% if not view_self_submissions %}selected{% endif %}>No</option>
+      </select>
+      <small class="form-text text-muted">
+        Users will be able to see whether their submission was correct or incorrect.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="max_attempts_behavior">Max Attempts Behavior</label>
+      <select name="max_attempts_behavior" class="form-control custom-select">
+        <option value="lockout" {% if max_attempts_behavior == "lockout" %}selected{% endif %}>Lockout</option>
+        <option value="timeout" {% if max_attempts_behavior == "timeout" %}selected{% endif %}>Timeout</option>
+      </select>
+      <small class="form-text text-muted">
+        Lockout disables the challenge after the maximum attempts. Timeout disables the challenge for a set amount of time.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="max_attempts_timeout">Max Attempts Timeout (seconds)</label>
+      <input type="number" name="max_attempts_timeout" class="form-control"
+             value="{{ max_attempts_timeout or 300 }}">
+      <small class="form-text text-muted">
+        The number of seconds a user must wait before retrying a challenge if the timeout behavior is enabled.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="hints_free_public_access">Allow free public access to hints?</label>
+      <select name="hints_free_public_access" class="form-control custom-select">
+        <option value="true" {% if hints_free_public_access %}selected{% endif %}>Yes</option>
+        <option value="false" {% if not hints_free_public_access %}selected{% endif %}>No</option>
+      </select>
+      <small class="form-text text-muted">
+        Users can view hints without spending points.
+      </small>
+    </div>
+
+    <button type="submit" class="btn btn-md btn-primary float-right">Update</button>
+  </form>
+</div>

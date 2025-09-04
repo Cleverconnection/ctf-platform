@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Anotações de Todas as Equipes</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Equipe</th>
+                <th>Anotações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+            <tr>
+                <td><strong>{{ team.name }}</strong></td>
+                <td><pre>{{ team.team_notes or "" }}</pre></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

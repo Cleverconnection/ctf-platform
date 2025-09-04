@@ -1,0 +1,6 @@
+cat > Pulumi.yml <<'YAML'
+name: web-101
+runtime:
+  name: python
+description: "Scenario executado por runner externo (sem rodar Pulumi)."
+YAML

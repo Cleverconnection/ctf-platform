@@ -1,0 +1,75 @@
+from flask import Blueprint, render_template, request, redirect, session, abort
+from CTFd.models import db, Teams
+from CTFd.utils.decorators import authed_only, require_team
+from CTFd.utils.user import get_current_user
+from CTFd.utils.user import is_admin
+from datetime import datetime
+
+team_notes_bp = Blueprint("team_notes", __name__, template_folder="templates")
+
+
+@team_notes_bp.route("/team_notes", methods=["GET", "POST"])
+@authed_only
+@require_team
+def team_notes():
+    team = get_current_user().team
+
+    if request.method == "POST":
+        new_content = request.form.get("content", "")
+
+        # Registrar log da alteração
+        from sqlalchemy import text
+        user = get_current_user()
+        db.session.execute(
+            text("""
+            INSERT INTO team_notes_log (team_id, user_id, username, content, timestamp)
+            VALUES (:team_id, :user_id, :username, :content, :timestamp)
+            """),
+            {
+                "team_id": team.id,
+                "user_id": user.id,
+                "username": user.name,
+                "content": new_content,
+                "timestamp": datetime.utcnow()
+            }
+        )
+
+        team.team_notes = new_content
+        db.session.commit()
+        return redirect("/team_notes")
+
+    content = team.team_notes or ""
+    return render_template("team_notes.html", content=content)
+
+
+@team_notes_bp.route("/admin_team_notes_log", methods=["GET"])
+@authed_only
+def admin_team_notes_log():
+    if not is_admin():
+        abort(403)
+
+    from sqlalchemy import text
+    logs = db.session.execute(
+        text("SELECT * FROM team_notes_log ORDER BY timestamp DESC")
+    ).fetchall()
+
+    return render_template("admin_team_notes_log.html", logs=logs)
+
+
+@team_notes_bp.route("/admin_team_notes_clear", methods=["POST"])
+@authed_only
+def clear_team_notes():
+    if not is_admin():
+        abort(403)
+
+    from sqlalchemy import text
+    db.session.execute(text("DELETE FROM team_notes_log"))
+    db.session.execute(text("UPDATE teams SET team_notes = NULL"))
+    db.session.commit()
+
+    return redirect("/admin_team_notes_log")
+
+
+def load(app):
+    app.register_blueprint(team_notes_bp)
+

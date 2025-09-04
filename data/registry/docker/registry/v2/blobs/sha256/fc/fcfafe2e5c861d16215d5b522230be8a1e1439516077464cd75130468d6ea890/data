@@ -1,0 +1,3 @@
+name: web-101
+runtime: python
+description: "Scenario executado por runner externo (sem rodar Pulumi)."

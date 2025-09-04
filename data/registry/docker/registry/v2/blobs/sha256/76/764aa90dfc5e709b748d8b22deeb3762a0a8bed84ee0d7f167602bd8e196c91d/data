@@ -1,0 +1,6 @@
+name: web-101
+description: "VM Proxmox via runner externo (Python) acionado por Pulumi"
+runtime:
+  name: go
+  options:
+    binary: ./main          # usaremos um binário Go chamado 'main'

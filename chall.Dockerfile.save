@@ -1,0 +1,19 @@
+FROM ctferio/chall-manager:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PULUMI_VERSION=3.130.0
+
+# Só o necessário para rodar Pulumi + Python
+RUN apt-get update && apt-get install -y \
+    curl ca-certificates unzip jq python3 python3-venv python3-pip git \
+  && rm -rf /var/lib/apt/lists/*
+
+# Pulumi CLI
+RUN curl -fsSL https://get.pulumi.com | sh -s -- --version ${PULUMI_VERSION} \
+  && ln -s /root/.pulumi/bin/pulumi /usr/local/bin/pulumi
+
+# Script genérico de execução do cenário (create/destroy)
+RUN bash -lc "cat > /app/exec-scenario.sh <<'EOF'\n#!/usr/bin/env bash\nset -euo pipefail\n\n# Inputs esperados do chall-manager:\n#  - SCENARIO_FILE=/scenarios/<slug>/scenario.yaml (ou qualquer arquivo do cenário)\n#  - ou SCENARIO_DIR=/scenarios/<slug>\n#  - ACTION=create|destroy (default: create)\n#  - Vars infra fixas: PROXMOX_* etc. (passadas pelo compose)\n#  - Vars do cenário: o próprio código Pulumi lê de ENV/arquivo\n\nexport PULUMI_HOME=${PULUMI_HOME:-/app/.pulumi}\nexport PULUMI_BACKEND_URL=${PULUMI_BACKEND_URL:-file:///app/data/pulumi-state}\nmkdir -p /app/data/pulumi-state\n\n# Resolve diretório do cenário\nif [[ -n \"${SCENARIO_DIR:-}\" ]]; then\n  DIR=\"$SCENARIO_DIR\"\nelif [[ -n \"${SCENARIO_FILE:-}\" ]]; then\n  DIR=\"$(dirname \"$SCENARIO_FILE\")\"\nelse\n  echo \"ERRO: defina SCENARIO_DIR ou SCENARIO_FILE\" >&2\n  exit 2\nfi\n\n# Garante que existe um projeto Pulumi ali\nif [[ ! -f \"$DIR/Pulumi.yaml\" ]]; then\n  echo \"ERRO: não achei Pulumi.yaml em $DIR (cenário deve conter projeto Pulumi)\" >&2\n  exit 3\nfi\n\ncd \"$DIR\"\n\n# venv opcional por cenário\nif [[ -f requirements.txt ]]; then\n  python3 -m venv .venv 2>/dev/null || true\n  . ./.venv/bin/activate\n  pip -q install -r requirements.txt\nfi\n\n# Descobre/define o nome do stack\n# Preferimos algo único por instância/time se o chall-manager passar; senão, fallback.\nSTACK_NAME=\"${STACK_NAME:-}\"\nif [[ -z \"$STACK_NAME\" ]]; then\n  # tenta compor com variáveis comuns, senão usa 'dev'\n  BASE=\"${INSTANCE_ID:-}${PLAYER_ID:-}${TEAM_ID:-}${CHALLENGE_ID:-}\"\n  if [[ -n \"$BASE\" ]]; then\n    STACK_NAME=\"stack-${BASE}\"\n  else\n    STACK_NAME=\"dev\"\n  fi\nfi\n\npulumi login \"$PULUMI_BACKEND_URL\"\npulumi stack select \"$STACK_NAME\" || pulumi stack init \"$STACK_NAME\"\n\ncase \"${ACTION:-create}\" in\n  create)\n    pulumi up -y --non-interactive --suppress-outputs\n    pulumi stack output --json\n    ;;\n  destroy)\n    pulumi destroy -y --non-interactive || true\n    # Emite JSON simples para o chall-manager registrar\n    echo '{}' \n    ;;\n  *)\n    echo \"ERRO: ACTION desconhecida: ${ACTION}\" >&2\n    exit 4\n    ;;\nesac\nEOF\nchmod +x /app/exec-scenario.sh"
+
+WORKDIR /app
+

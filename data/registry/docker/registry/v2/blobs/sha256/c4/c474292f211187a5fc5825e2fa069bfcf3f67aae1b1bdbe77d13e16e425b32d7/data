@@ -1,0 +1,61 @@
+package main
+
+import (
+	"os"
+
+	"github.com/ctfer-io/chall-manager/sdk"
+	local "github.com/pulumi/pulumi-command/sdk/go/command/local"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+)
+
+func main() {
+	sdk.Run(func(req *sdk.Request, resp *sdk.Response, opts ...pulumi.ResourceOption) error {
+		// Monta env a ser passado para os scripts
+		env := pulumi.StringMap{}
+
+		// helper para adicionar variáveis se existirem
+		add := func(k string) {
+			if v, ok := os.LookupEnv(k); ok && v != "" {
+				env[k] = pulumi.String(v)
+			}
+		}
+
+		// Lista de variáveis relevantes
+		for _, k := range []string{
+			"PROXMOX_API_URL", "PROXMOX_USER", "PROXMOX_PASSWORD",
+			"PROXMOX_TOKEN_ID", "PROXMOX_TOKEN_SECRET",
+			"PROXMOX_DATASTORE", "TEMPLATE_VMID",
+			"CLONE_MODE", "VM_PREFIX", "VM_CORES", "VM_MEMORY_MB",
+			"NET_BRIDGE", "NIC_MODEL", "TTL_MINUTES",
+			"VMID_RANGE_START", "VMID_RANGE_END",
+		} {
+			add(k)
+		}
+
+		// --- Fallback fixo para PROXMOX_NODE ---
+		node := os.Getenv("PROXMOX_NODE")
+		if node == "" {
+			node = "cecpa" // se não vier nada, usa "cecpa"
+		}
+		env["PROXMOX_NODE"] = pulumi.String(node)
+
+		// Identidade única (do chall-manager)
+		env["IDENTITY"] = pulumi.String(req.Config.Identity)
+
+		// Cria um recurso que executa os scripts Python
+		cmd, err := local.NewCommand(req.Ctx, "proxmox-vm", &local.CommandArgs{
+			Dir:         pulumi.String("."),
+			Create:      pulumi.String("python3 create.py"),
+			Delete:      pulumi.String("python3 destroy.py"),
+			Environment: env,
+		}, opts...)
+		if err != nil {
+			return err
+		}
+
+		// O que create.py imprimir em stdout vira connection_info no CTFd
+		resp.ConnectionInfo = cmd.Stdout
+
+		return nil
+	})
+}

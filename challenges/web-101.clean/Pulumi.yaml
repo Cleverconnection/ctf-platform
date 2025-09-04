@@ -1,0 +1,6 @@
+name: web-101
+runtime:
+  name: go
+  options:
+    binary: ./main
+description: "Scenario VM Proxmox via scripts Python, empacotado em Go"

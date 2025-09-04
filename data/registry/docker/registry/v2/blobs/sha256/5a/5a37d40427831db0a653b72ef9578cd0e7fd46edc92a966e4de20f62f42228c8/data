@@ -1,0 +1,23 @@
+cd /home/user/itau/challenges/web-101
+
+# apaga o antigo
+rm -f Pulumi.yml Pulumi.yaml
+
+# cria um YAML mínimo válido (4 linhas, espaços, sem tabs)
+printf '%s\n' \
+'name: web-101' \
+'runtime:' \
+'  name: python' \
+'description: "Scenario executado por runner externo (sem rodar Pulumi)."' \
+> Pulumi.yml
+
+# confira visualizando caracteres ocultos (não deve aparecer ^M ou \t)
+sed -n '1,10p' Pulumi.yml | cat -A
+# saída esperada (sem ^M, sem tabs):
+# name: web-101$
+# runtime:$
+#   name: python$
+# description: "Scenario executado por runner externo (sem rodar Pulumi)."$
+
+# (opcional) remova CRLF se vieram de algum editor
+tr -d '\r' < Pulumi.yml > Pulumi.yml.clean && mv Pulumi.yml.clean Pulumi.yml

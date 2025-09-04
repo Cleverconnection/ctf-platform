@@ -1,0 +1,22 @@
+# requirements-plugins.txt
+
+# Scheduler para plugins containers
+apscheduler==3.10.4
+
+# Comunicação com Docker API
+docker==7.1.0
+
+# HTTP client robusto (já vem no core, mas garantimos versão segura)
+requests>=2.31
+
+# Datas (usado em containers e outros plugins)
+arrow==1.2.3
+
+# SSH (para plugins que sobem VMs/containers via SSH)
+paramiko==3.4.0
+
+# Dependências comuns do paramiko
+cryptography>=41.0.0
+bcrypt>=4.0.1
+datafreeze
+#normality

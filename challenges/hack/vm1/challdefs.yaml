@@ -1,0 +1,6 @@
+name: "vm1-challenge"
+type: pulumi
+path: /scenarios/hack/vm1   # Caminho onde o código Pulumi e o template estão
+ttl: 1h                    # Tempo de vida da VM criada para o jogador
+outputs:
+  - ip_address             # IP exportado pelo Pulumi para ser utilizado no CTFd

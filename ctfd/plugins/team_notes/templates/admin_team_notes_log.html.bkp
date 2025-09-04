@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3>📜 Histórico de Alterações nas Anotações</h3>
+    <form method="POST" action="/admin_team_notes_clear" onsubmit="return confirm('Tem certeza que deseja apagar TODAS as anotações e logs? Esta ação não pode ser desfeita.')">
+    <button class="btn btn-danger mb-4">🧨 Apagar Todas as Anotações e Logs</button>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Data/Hora</th>
+                <th>Usuário</th>
+                <th>ID Equipe</th>
+                <th>Anotação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.timestamp.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+                <td>{{ log.username }}</td>
+                <td>{{ log.team_id }}</td>
+                <td><pre>{{ log.content }}</pre></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

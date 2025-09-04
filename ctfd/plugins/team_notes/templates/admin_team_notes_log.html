@@ -1,0 +1,53 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">📝 Anotações das Equipes</h1>
+
+    <form method="POST" action="/admin_team_notes_clear"
+          onsubmit="return confirm('Tem certeza que deseja apagar TODAS as anotações e logs? Esta ação não pode ser desfeita.')">
+        <input type="hidden" name="nonce" value="{{ session['nonce'] }}">
+        <button class="btn btn-danger mb-4">🧨 Apagar Todas as Anotações e Logs</button>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Equipe</th>
+                <th>Anotação Atual</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+                <tr>
+                    <td>{{ team.name }}</td>
+                    <td><pre>{{ team.team_notes or "" }}</pre></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="mt-5">📜 Histórico de Alterações</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Usuário</th>
+                <th>Timestamp</th>
+                <th>Conteúdo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td>{{ log.team_id }}</td>
+                    <td>{{ log.username }}</td>
+                    <td>{{ log.timestamp }}</td>
+                    <td><pre>{{ log.content }}</pre></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

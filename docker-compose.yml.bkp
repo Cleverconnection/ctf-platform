@@ -1,0 +1,89 @@
+services:
+  db:
+    image: mariadb:10.11.8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ctfdroot
+      MYSQL_DATABASE: ctfd_evento_atual
+      MYSQL_USER: ctfd
+      MYSQL_PASSWORD: ctfd
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks: [ctf_net]
+
+  redis:
+    image: redis:7.4.0-alpine
+    restart: always
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./data/redis:/data
+    networks: [ctf_net]
+
+  docker-socket-proxy:
+    image: tecnativa/docker-socket-proxy:0.1.1
+    restart: always
+    environment:
+      CONTAINERS: 1
+      IMAGES: 1
+      NETWORKS: 1
+      SYSTEM: 0
+      VOLUMES: 0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks: [ctf_net]
+
+  traefik:
+    image: traefik:v3.1.2
+    restart: always
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.file.directory=/etc/traefik/dynamic
+      - --providers.file.watch=true
+      - --entryPoints.web.address=:80
+      - --entryPoints.websecure.address=:443
+      - --api.dashboard=true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/certs:/certs
+      - ./data/traefik:/etc/traefik/dynamic
+    networks: [ctf_net]
+
+  ctfd:
+    image: ghcr.io/ctfd/ctfd:3.7.7
+    restart: always
+    environment:
+      UPLOAD_FOLDER: /var/uploads
+      DATABASE_URL: mysql+pymysql://ctfd:ctfd@db/ctfd_evento_atual
+      REDIS_URL: redis://redis:6379
+      REVERSE_PROXY: "true"
+    volumes:
+      - ./data/uploads:/var/uploads
+      - ./data/logs:/var/log/CTFd
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ctfd.rule=Host(`ctfd.cecyber.com`)
+      - traefik.http.routers.ctfd.entrypoints=websecure
+      - traefik.http.routers.ctfd.tls=true
+    depends_on:
+      - db
+      - redis
+    networks: [ctf_net]
+
+  spawner:
+    build: ./spawner
+    restart: always
+    environment:
+      DOCKER_HOST: tcp://docker-socket-proxy:2375
+      BASE_DOMAIN: ctf.cecyber.com
+      TRAEFIK_ENTRYPOINT: websecure
+      FLAG_SECRET: troque-esse-segredo
+    networks: [ctf_net]
+    depends_on:
+      - docker-socket-proxy
+
+networks:
+  ctf_net:

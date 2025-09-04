@@ -1,0 +1,14 @@
+cd /home/user/itau/challenges/web-101
+
+# recria limpo (sem tabs/CRLF, indentação por espaços)
+cat > Pulumi.yaml <<'YAML'
+name: web-101
+runtime:
+  name: go
+  options:
+    binary: ./main
+description: "Scenario dummy: executado por runner externo."
+YAML
+
+# confira que não há ^M/tabs
+sed -n '1,10p' Pulumi.yaml | cat -A

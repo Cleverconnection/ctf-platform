@@ -1,0 +1,37 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-4">Logs de Anotações das Equipes</h3>
+
+    <form method="POST" action="/admin_team_notes_log/delete_all" onsubmit="return confirm('Tem certeza que deseja apagar todas as anotações e logs?')">
+        <button type="submit" class="btn btn-danger mb-3">
+            <i class="fas fa-trash-alt"></i> Apagar Todos os Logs e Anotações
+        </button>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Equipe</th>
+                    <th>Usuário</th>
+                    <th>Conteúdo</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.team_id }}</td>
+                    <td>{{ log.username }}</td>
+                    <td><pre>{{ log.content }}</pre></td>
+                    <td>{{ log.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

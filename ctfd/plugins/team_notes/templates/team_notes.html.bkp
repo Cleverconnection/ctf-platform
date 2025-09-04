@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h3 class="mb-4">📝 Anotações da Equipe</h3>
+
+    <form method="POST">
+        <input type="hidden" name="nonce" value="{{ session['nonce'] }}">
+
+        <div class="form-group">
+            <textarea name="content" rows="15" class="form-control" placeholder="Digite aqui suas anotações...">{{ content }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">
+            💾 Salvar Anotações
+        </button>
+    </form>
+</div>
+{% endblock %}
+
