@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, time, json
+import os, time, json, pathlib
 from proxmoxer import ProxmoxAPI
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -19,12 +19,12 @@ node      = env("PROXMOX_NODE", "cecpa")
 datastore = env("PROXMOX_DATASTORE", "local-lvm")
 
 # --- Defaults (range global 2200–2300) ---
-template_vmid = int(env("TEMPLATE_VMID", "2200"))   # no web-102, troque para "2210" se quiser
+template_vmid = int(env("TEMPLATE_VMID", "2200"))
 cores         = int(env("VM_CORES", "2"))
 memory_mb     = int(env("VM_MEMORY_MB", "2048"))
 net_bridge    = env("NET_BRIDGE", "vmbr0")
 vlan_tag      = env("NET_VLAN_TAG", "")
-clone_mode    = env("CLONE_MODE", "linked").lower() # no web-102, use "full" se linked não suportar
+clone_mode    = env("CLONE_MODE", "linked").lower()
 
 range_start   = int(env("VMID_RANGE_START", "2200"))
 range_end     = int(env("VMID_RANGE_END", "2300"))
@@ -79,7 +79,7 @@ except Exception as e:
         raise
 wait_task(upid_of(clone_resp))
 
-# --- Config mínima (preserva net0 do template; só troca se VLAN vier) ---
+# --- Config mínima ---
 cfg = dict(
     cores=cores,
     memory=memory_mb,
@@ -115,5 +115,13 @@ ip = get_ip()
 if not ip:
     raise SystemExit("Falha ao obter IP via qemu-guest-agent (verifique cloud-init/agent/DHCP).")
 
-#print(json.dumps({"ip": ip}))
-print(json.dumps({"connectionInfo": ip}))
+# --- Persistência de outputs (para Destroy/Restart) ---
+out = {"vmid": vmid, "ip": ip}
+here = pathlib.Path(__file__).resolve().parent
+try:
+    (here / "outputs.json").write_text(json.dumps(out), encoding="utf-8")
+except Exception:
+    pass  # best effort; Destroy ainda consegue via OUTPUTS_JSON
+
+# CLI: mantém JSON completo (útil para smoke e para o main.go parsear)
+print(json.dumps(out))

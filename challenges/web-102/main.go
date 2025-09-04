@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"strings"
 
@@ -12,9 +13,9 @@ import (
 
 func main() {
 	sdk.Run(func(req *sdk.Request, resp *sdk.Response, opts ...pulumi.ResourceOption) error {
+		// ---------- Ambiente base passado aos scripts ----------
 		env := pulumi.StringMap{}
 
-		// Passa credenciais sempre que existirem
 		pass := func(k string) {
 			if v, ok := os.LookupEnv(k); ok && v != "" {
 				env[k] = pulumi.String(v)
@@ -27,8 +28,6 @@ func main() {
 		} {
 			pass(k)
 		}
-
-		// Set default se não vier do ambiente
 		setOrDefault := func(k, def string) {
 			if v := os.Getenv(k); v != "" {
 				env[k] = pulumi.String(v)
@@ -36,8 +35,6 @@ func main() {
 				env[k] = pulumi.String(def)
 			}
 		}
-
-		// Defaults do seu ambiente/evento
 		setOrDefault("PROXMOX_NODE", "cecpa")
 		setOrDefault("PROXMOX_DATASTORE", "local-lvm")
 		setOrDefault("TEMPLATE_VMID", "2210")
@@ -47,57 +44,100 @@ func main() {
 		setOrDefault("NET_BRIDGE", "vmbr0")
 		setOrDefault("VMID_RANGE_START", "2200")
 		setOrDefault("VMID_RANGE_END", "2300")
-		// opcionais
 		pass("NET_VLAN_TAG")
 		pass("NIC_MODEL")
 		pass("TTL_MINUTES")
 
-		// Identidade do jogador/time (útil para logs)
+		// Identidade (aparece nos logs do CM)
 		env["IDENTITY"] = pulumi.String(req.Config.Identity)
 
-		// Executa seus scripts Python (create/destroy)
-		cmd, err := local.NewCommand(req.Ctx, "proxmox-vm", &local.CommandArgs{
+		// ---------- RECURSO 1: CREATE ----------
+		createCmd, err := local.NewCommand(req.Ctx, "proxmox-vm-create", &local.CommandArgs{
 			Dir:         pulumi.String("."),
 			Create:      pulumi.String("python3 create.py"),
-			Delete:      pulumi.String("python3 destroy.py"),
 			Environment: env,
 		}, opts...)
 		if err != nil {
 			return err
 		}
 
-		// O que o create.py imprimir em stdout vira o connection_info (só o IP)
-		out := cmd.Stdout.ApplyT(func(s string) string {
+		// Parse do stdout do create.py
+		type out struct {
+			IP              string      `json:"ip"`
+			VMID            interface{} `json:"vmid"`
+			ConnectionInfo  string      `json:"connectionInfo"`
+			ConnectionInfo2 string      `json:"connection_info"`
+			Address         string      `json:"address"`
+		}
+
+		ipOut := createCmd.Stdout.ApplyT(func(s string) string {
 			s = strings.TrimSpace(s)
-			var m map[string]any
-			if json.Unmarshal([]byte(s), &m) == nil {
-				// tenta extrair do JSON
-				if v, ok := m["ip"]; ok {
-					if str, ok := v.(string); ok && str != "" {
-						return str
-					}
+			var o out
+			if json.Unmarshal([]byte(s), &o) == nil {
+				if o.IP != "" {
+					return o.IP
 				}
-				if v, ok := m["connection_info"]; ok {
-					if str, ok := v.(string); ok && str != "" {
-						return str
-					}
+				if o.ConnectionInfo != "" {
+					return o.ConnectionInfo
 				}
-				if v, ok := m["connectionInfo"]; ok {
-					if str, ok := v.(string); ok && str != "" {
-						return str
-					}
+				if o.ConnectionInfo2 != "" {
+					return o.ConnectionInfo2
 				}
-				if v, ok := m["address"]; ok {
-					if str, ok := v.(string); ok && str != "" {
-						return str
-					}
+				if o.Address != "" {
+					return o.Address
 				}
 			}
-			// fallback: devolve string crua
+			// fallback: string inteira (não recomendável, mas evita quebrar)
 			return s
 		}).(pulumi.StringOutput)
 
-		resp.ConnectionInfo = out
+		vmidOut := createCmd.Stdout.ApplyT(func(s string) string {
+			var o out
+			if json.Unmarshal([]byte(s), &o) == nil {
+				switch v := o.VMID.(type) {
+				case float64:
+					return fmt.Sprintf("%.0f", v)
+				case string:
+					return strings.TrimSpace(v)
+				default:
+					var m map[string]any
+					if json.Unmarshal([]byte(s), &m) == nil {
+						if vv, ok := m["vmid"]; ok {
+							return fmt.Sprintf("%v", vv)
+						}
+					}
+				}
+			}
+			return ""
+		}).(pulumi.StringOutput)
+
+		// Exporta para o stack (útil p/ observabilidade/jenitor)
+		req.Ctx.Export("vmid", vmidOut)
+		req.Ctx.Export("ip", ipOut)
+
+		// O plugin do CTFd só lê connection_info/connectionInfo (string)
+		resp.ConnectionInfo = ipOut
+
+		// ---------- RECURSO 2: DELETE ----------
+		// Passamos explicitamente OUTPUTS_JSON para o destroy.py com vmid/ip do create
+		outputsJSON := pulumi.Sprintf(`{"vmid": %s, "ip": "%s"}`, vmidOut, ipOut)
+
+		// Clona env e adiciona OUTPUTS_JSON
+		envForDelete := pulumi.StringMap{}
+		for k, v := range env {
+			envForDelete[k] = v
+		}
+		envForDelete["OUTPUTS_JSON"] = outputsJSON
+
+		_, err = local.NewCommand(req.Ctx, "proxmox-vm-destroy", &local.CommandArgs{
+			Dir:         pulumi.String("."),
+			Delete:      pulumi.String("python3 destroy.py"),
+			Environment: envForDelete,
+		}, append(opts, pulumi.DependsOn([]pulumi.Resource{createCmd}))...)
+		if err != nil {
+			return err
+		}
+
 		return nil
 	})
 }

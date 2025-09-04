@@ -59,6 +59,7 @@ services:
     volumes:
       - ./data/chall-manager:/app/data  # Para persistir dados do Chall-Manager
       - ./challenges:/scenarios
+      - ./chall_tmp:/tmp/chall-manager/chall
       - ./challenges/_runner/exec-scenario.sh:/app/exec-scenario.sh:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
