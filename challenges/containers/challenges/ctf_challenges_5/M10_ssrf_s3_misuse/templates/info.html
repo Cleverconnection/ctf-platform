@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Proxy S3 — Notas Internas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Notas internas do proxy</h1>
+      </div>
+    </div>
+    <p>Este proxy foi criado para facilitar integrações com armazenamentos S3 externos. Ele encaminha requisições
+      informadas pelos analistas e devolve o corpo sem armazenar cópias.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Checklist operacional</h2>
+      <ul>
+        <li>URLs externas devem apontar para objetos versionados.</li>
+        <li>O proxy mantém compatibilidade com endpoints internos como <code>http://127.0.0.1:8080/s3/&lt;bucket&gt;</code>.</li>
+        <li>O bucket sensível atual é <strong>{{ bucket }}</strong>; utilize apenas chaves autorizadas.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Riscos conhecidos</h2>
+      <p>
+        Não há validação rígida do host de destino. Caso alguém informe URLs internas por engano, o proxy tentará
+        buscá-las a partir da rede corporativa. O time de segurança está revisando filtros adicionais.
+      </p>
+      <p>
+        O parâmetro <code>forward_headers</code> controla se o proxy envia cabeçalhos padrão. Use com cautela ao
+        depurar integrações com buckets privados.
+      </p>
+    </section>
+
+    <nav>
+      <a href="/">Voltar ao formulário</a>
+    </nav>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+</body>
+</html>

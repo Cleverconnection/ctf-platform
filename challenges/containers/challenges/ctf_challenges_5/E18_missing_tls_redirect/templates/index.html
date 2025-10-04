@@ -15,37 +15,119 @@
         <h1>Transporte Opcional</h1>
       </div>
     </div>
-    <p>Teste o fluxo de criação de sessão para ver como o protocolo é tratado pelo backend.</p>
+    <p>Uma captura de rede revelou que o gateway aceita downgrade de protocolo. Use o material compartilhado para
+      reproduzir o fluxo completo antes de pedir a sessão.</p>
   </header>
 
   <main>
-    <button id="session-btn">Criar sessão</button>
+    <section>
+      <h2>Captura de referência</h2>
+      <p>
+        Baixe a captura <a href="{{ url_for('static', filename='assets/handshake.log') }}">handshake.log</a> e analise
+        o código do bilhete e o protocolo usado na requisição legítima.
+      </p>
+    </section>
+
+    <section>
+      <h2>Iniciar handshake</h2>
+      <form id="login-form" aria-describedby="login-help">
+        <p id="login-help" class="sr-only">Informe o código do bilhete e o protocolo esperado pelo gateway.</p>
+        <label for="ticket">Código do bilhete</label>
+        <input id="ticket" name="ticket" placeholder="BOARDING-????" required />
+
+        <label for="proto">Protocolo encaminhado</label>
+        <select id="proto" name="proto">
+          <option value="https">https</option>
+          <option value="http">http</option>
+        </select>
+
+        <button type="submit">Enviar handshake</button>
+      </form>
+      <p id="login-output" aria-live="polite">Nenhum handshake iniciado.</p>
+    </section>
 
     <section aria-live="polite" aria-atomic="true">
-      <h2>Resposta</h2>
-      <pre id="session-output" role="status">Veja como o protocolo é registrado no retorno.</pre>
+      <h2>Criar sessão</h2>
+      <button id="session-btn" disabled>Solicitar sessão</button>
+      <pre id="session-output" role="status">Informe o bilhete válido para liberar a sessão.</pre>
     </section>
   </main>
 
   <footer>
-    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a> · <a href="/flag">Endpoint</a>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
   </footer>
 
   <script>
-    const button = document.getElementById('session-btn');
-    const output = document.getElementById('session-output');
+    let handshakeToken = null;
 
-    button.addEventListener('click', async () => {
-      output.textContent = 'Solicitando...';
+    const sessionButton = document.getElementById('session-btn');
+    const sessionOutput = document.getElementById('session-output');
+    const loginForm = document.getElementById('login-form');
+    const loginOutput = document.getElementById('login-output');
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const ticket = document.getElementById('ticket').value.trim();
+      const proto = document.getElementById('proto').value;
+
+      if (!ticket) {
+        loginOutput.textContent = 'Informe o código do bilhete.';
+        return;
+      }
+
+      loginOutput.textContent = 'Enviando handshake...';
 
       try {
-        const res = await fetch('/session');
-        const raw = await res.text();
-        let data;
-        try { data = JSON.parse(raw); } catch { data = raw; }
-        output.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+        const res = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Forwarded-Proto': proto
+          },
+          body: JSON.stringify({ ticket })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          loginOutput.textContent = data.error ? `Erro: ${data.error}` : 'Handshake recusado.';
+          sessionButton.disabled = true;
+          handshakeToken = null;
+          return;
+        }
+
+        handshakeToken = data.handshake_token;
+        sessionButton.disabled = false;
+        loginOutput.textContent = `Handshake aprovado. Token válido por ${data.expires_in} segundos.`;
+        sessionOutput.textContent = 'Token liberado. Solicite a sessão para ver a resposta.';
       } catch (error) {
-        output.textContent = 'Erro: ' + error;
+        loginOutput.textContent = 'Erro: ' + error;
+        sessionButton.disabled = true;
+        handshakeToken = null;
+      }
+    });
+
+    sessionButton.addEventListener('click', async () => {
+      if (!handshakeToken) {
+        sessionOutput.textContent = 'Gere um handshake primeiro.';
+        return;
+      }
+
+      sessionOutput.textContent = 'Solicitando sessão...';
+
+      try {
+        const res = await fetch('/session', {
+          headers: { 'X-Transit-Token': handshakeToken }
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          sessionOutput.textContent = data.error ? `Erro: ${data.error}` : 'Sessão negada.';
+          return;
+        }
+
+        sessionOutput.textContent = JSON.stringify(data, null, 2);
+        handshakeToken = null;
+        sessionButton.disabled = true;
+      } catch (error) {
+        sessionOutput.textContent = 'Erro: ' + error;
       }
     });
   </script>

@@ -2,7 +2,7 @@ import os
 from urllib.parse import urlparse
 
 import requests
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, make_response
 
 app = Flask(__name__)
 FLAG = os.environ.get("FLAG", "ITAU2025{ssrf_internal_service}")
@@ -16,7 +16,10 @@ def index():
 
 @app.route("/health")
 def health():
-    return "OK", 200
+    r = make_response("OK", 200)
+    r.headers["X-Backend-Port"] = "8080"
+    r.headers["X-Hint"] = "try 127.1"
+    return r
 
 
 def is_url_allowed(url: str) -> bool:
@@ -60,9 +63,22 @@ def internal_ops():
         return "restrito", 403
 
     if request.headers.get("X-Internal-Key") != INTERNAL_KEY:
-        return "credencial ausente", 401
+        return "missing header X-Internal-Key", 401
 
     return jsonify({"flag": FLAG, "note": "Somente operadores internos deveriam chegar aqui."})
+
+
+@app.route("/internal/key")
+def internal_key():
+    if request.remote_addr not in {"127.0.0.1", "::1"}:
+        return "restrito", 403
+    return INTERNAL_KEY
+
+
+@app.route("/robots.txt")
+def robots():
+    body = "User-agent: *\nDisallow: /internal/ops # only 127.1:8080\n"
+    return body, 200, {"Content-Type": "text/plain; charset=utf-8"}
 
 
 if __name__ == "__main__":

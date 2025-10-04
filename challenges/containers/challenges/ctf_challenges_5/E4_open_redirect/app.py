@@ -3,6 +3,7 @@ import requests
 
 app = Flask(__name__)
 FLAG = "ITAU2025{ssrf_proxy_to_flag}"
+INTERNAL_SECRET = "proxy-admin-2025"
 
 
 @app.route("/")
@@ -33,6 +34,8 @@ def fetch():
 
 @app.route("/flag")
 def flag():
+    if request.headers.get("X-Secret") != INTERNAL_SECRET:
+        return "acesso restrito: header X-Secret obrigatório", 403
     return FLAG
 
 
