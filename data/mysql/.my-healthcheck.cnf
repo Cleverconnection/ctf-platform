@@ -1,7 +1,3 @@
-[mariadb-client]
-port=3306
-socket=/run/mysqld/mysqld.sock
-user=healthcheck
-password=jonKt5w7F^}lA):2601:~u*L|M<sSRZT
-protocol=tcp
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:7568b35274d0118c89a377a74931e99caed7acd27714da05b2b7f4d4b10c4c67
+size 131
