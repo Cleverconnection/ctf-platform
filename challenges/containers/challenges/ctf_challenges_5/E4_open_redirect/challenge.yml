@@ -1,0 +1,37 @@
+name: Requisição Transparente
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    Um proxy de integrações permite buscar conteúdo externo a partir de uma URL informada. Sem restrições de destino,
+    o serviço pode ser induzido a consultar endereços internos da infraestrutura.
+  </p>
+  <p>
+    Será fornecida uma <strong>URL de acesso individual</strong> do proxy para realização dos testes.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL de acesso individual (fornecida ao iniciar a instância do desafio)</strong>
+  </p>
+  <p>
+    <strong>Objetivo:</strong><br>
+    Explorar o proxy para alcançar um endpoint interno protegido e, com isso, obter a flag.
+  </p>
+  <hr>
+  <p>
+    Falta de listas de permissão de destino e validação de esquema abre portas para movimentos laterais.
+  </p>
+attribution: ""
+value: 10
+type: container
+extra:
+  initial: 10
+  decay: 10
+  minimum: 10
+connection_info: Container
+flags:
+  - ITAU2025{ssrf_proxy_to_flag}
+hints:
+  - content: >-
+      Aponte o proxy para 127.0.0.1/localhost e portas não públicas.
+    cost: 5

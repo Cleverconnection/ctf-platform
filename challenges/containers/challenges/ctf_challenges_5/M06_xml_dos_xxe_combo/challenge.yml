@@ -1,0 +1,35 @@
+name: XML Explosivo
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    O importador de arquivos XML deixa DTD e entidades externas habilitadas. Payloads podem tanto exfiltrar arquivos
+    locais quanto causar estouro de memória com expansões infinitas.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL do importador XML (container individual)</strong>
+  </p>
+  <p><strong>Objetivo:</strong><br> Construir um XML com XXE para ler <code>/flag</code> ou demonstrar DoS e capturar a flag exposta.</p>
+  <hr>
+  <p>Processadores XML devem desabilitar entidades externas e limitar recursos.</p>
+attribution: ''
+value: 20
+type: container
+
+extra:
+  initial: 20
+  decay: 0
+  minimum: 20
+connection_info: Container
+
+flags:
+- ITAU2025{xml_xxe_resource_exhaust}
+
+hints:
+- content: >-
+    Use um DTD com <code>&lt;!ENTITY itau SYSTEM "file:///flag"&gt;</code> e faça
+    referência à entidade no corpo.
+  cost: 5
+
+state: hidden

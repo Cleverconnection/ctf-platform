@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Java Deserializer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/theme.css">
+  <style>
+    main form { display: flex; flex-direction: column; gap: 0.5rem; }
+    textarea { width: 100%; min-height: 140px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Central de Jobs Java</h1>
+      </div>
+    </div>
+    <p>Envie objetos serializados para execução de tarefas agendadas. A fila deserializa diretamente o payload recebido.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Enviar pacote</h2>
+      <form method="post" action="/api/jobs">
+        <label>Objeto Base64
+          <textarea name="payload" placeholder="rO0AB..."></textarea>
+        </label>
+        <button type="submit">Submeter</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Status</h2>
+      <p>Use ferramentas como <code>ysoserial</code> para construir objetos. O servidor retorna mensagens de erro diretamente.</p>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+</body>
+</html>

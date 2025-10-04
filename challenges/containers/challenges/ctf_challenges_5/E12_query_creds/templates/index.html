@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Link Compartilhado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Link Compartilhado</h1>
+      </div>
+    </div>
+    <p>O time compartilha backups usando parâmetros na URL. Confira o endereço utilizado.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Backup mais recente</h2>
+      <p>Link distribuído para suporte:</p>
+      <p><a href="/backup?token={{ backup_token }}">/backup?token={{ backup_token }}</a></p>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a> · <a href="/flag">Endpoint</a>
+  </footer>
+</body>
+</html>

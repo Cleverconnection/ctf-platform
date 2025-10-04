@@ -1,0 +1,35 @@
+name: Proxy S3 Interno
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    O proxy de integrações aceita qualquer URL assinada e realiza a requisição a partir da rede interna. Buckets
+    privados expostos em localhost podem ser lidos via SSRF.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL do proxy de objetos (container individual)</strong>
+  </p>
+  <p><strong>Objetivo:</strong><br>Buscar <code>http://127.0.0.1:8080/s3/internal/statements/report.txt</code> e capturar a flag.</p>
+  <hr>
+  <p>Proxies para S3 devem validar host de destino e restringir buckets acessíveis.</p>
+attribution: ''
+value: 20
+type: container
+
+extra:
+  initial: 20
+  decay: 0
+  minimum: 20
+connection_info: Container
+
+flags:
+- ITAU2025{ssrf_s3_traversal}
+
+hints:
+- content: >-
+    Informe a URL interna do bucket no parâmetro <code>url</code>; a requisição ocorrerá
+    a partir do backend.
+  cost: 5
+
+state: hidden

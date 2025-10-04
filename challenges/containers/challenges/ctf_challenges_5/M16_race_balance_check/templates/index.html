@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Race Balance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Monitor de Saldo</h1>
+      </div>
+    </div>
+    <p>Dois saques concorrentes não compartilham travas, permitindo saldo negativo temporário.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Saldo atual</h2>
+      <button id="refresh">Atualizar</button>
+      <pre id="state">Clique em atualizar.</pre>
+    </section>
+
+    <section>
+      <h2>Solicitar saque</h2>
+      <label>Valor <input id="amount" value="1000"></label>
+      <button id="withdraw">Sacar</button>
+      <pre id="result">Dispare requisições simultâneas para gerar saldo negativo.</pre>
+    </section>
+
+    <section>
+      <h2>Flag</h2>
+      <button id="flag">Checar</button>
+      <pre id="flag-output">Saldo precisa ficar negativo para liberar.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+
+  <script>
+    async function refresh() {
+      const res = await fetch('/api/state');
+      const data = await res.json();
+      document.getElementById('state').textContent = JSON.stringify(data, null, 2);
+    }
+
+    document.getElementById('refresh').addEventListener('click', refresh);
+    refresh();
+
+    document.getElementById('withdraw').addEventListener('click', async () => {
+      const res = await fetch('/api/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: document.getElementById('amount').value })
+      });
+      const data = await res.json();
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    });
+
+    document.getElementById('flag').addEventListener('click', async () => {
+      const res = await fetch('/flag');
+      const text = await res.text();
+      document.getElementById('flag-output').textContent = text;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+name: Cabeçalhos Reveladores
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    Um healthcheck de diagnóstico retorna cabeçalhos verbosos com caminhos internos e outras pistas sobre o ambiente.
+    Esses indícios apontam para recursos acessíveis no próprio serviço.
+  </p>
+  <p>
+    A instância expõe uma <strong>URL de acesso individual</strong> para observar os cabeçalhos e acessar artefatos.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL de acesso individual (fornecida ao iniciar a instância do desafio)</strong>
+  </p>
+  <p>
+    <strong>Objetivo:</strong><br>
+    Usar as pistas dos cabeçalhos para localizar o recurso protegido e obter a flag.
+  </p>
+  <hr>
+  <p>
+    Minimizar informações em headers reduz a superfície de reconhecimento.
+  </p>
+attribution: ""
+value: 10
+type: container
+extra:
+  initial: 10
+  decay: 10
+  minimum: 10
+connection_info: Container
+flags:
+  - ITAU2025{headers_tell_secrets}
+hints:
+  - content: >-
+      Leia os cabeçalhos X-* e siga o caminho indicado para o arquivo de dica.
+    cost: 5

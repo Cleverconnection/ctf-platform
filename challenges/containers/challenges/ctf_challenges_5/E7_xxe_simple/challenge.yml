@@ -1,0 +1,37 @@
+name: Importação XML
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    Um importador XML processa documentos enviados com suporte a entidades externas. Arquivos locais do ambiente
+    podem ser referenciados a partir do próprio XML.
+  </p>
+  <p>
+    Cada instância fornece uma <strong>URL de acesso individual</strong> para envio dos documentos XML.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL de acesso individual (fornecida ao iniciar a instância do desafio)</strong>
+  </p>
+  <p>
+    <strong>Objetivo:</strong><br>
+    Construir um documento que exponha um segredo utilizado para liberar a flag.
+  </p>
+  <hr>
+  <p>
+    Configurações seguras de parser e bloqueio de DTD/XXE são medidas fundamentais.
+  </p>
+attribution: ""
+value: 10
+type: container
+extra:
+  initial: 10
+  decay: 10
+  minimum: 10
+connection_info: Container
+flags:
+  - ITAU2025{xxe_into_core}
+hints:
+  - content: >-
+      Construa um DOCTYPE com SYSTEM file:/// apontando para um arquivo útil.
+    cost: 5

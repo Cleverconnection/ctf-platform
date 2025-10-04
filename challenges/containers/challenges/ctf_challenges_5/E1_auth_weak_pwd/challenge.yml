@@ -1,0 +1,53 @@
+name: Sessão Reutilizável
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    Uma aplicação legada, mantida às pressas por uma equipe que perdeu a documentação original,
+    continua em produção para suportar funcionalidades internas críticas. Trata-se de um portal
+    de administração usado por operadores para emitir <strong>tokens de sessão</strong> que
+    autorizam processos automatizados e integrações entre sistemas legados. Por questões de
+    conveniência, a equipe deixou credenciais padrão e senhas triviais ativas — e o mecanismo de
+    emissão de tokens não valida robustamente as entradas nem aplica bloqueio por tentativas falhas.
+  </p>
+  <p>
+    Para cada instância do desafio será exibida uma <strong>URL de acesso individual</strong>, que
+    deverá ser utilizada para interagir com o portal (HTML/JSON) durante a execução do desafio.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL de acesso individual (fornecida ao iniciar a instância do desafio)</strong><br>
+  </p>
+  <p>
+    <strong>Objetivo:</strong><br>
+    Descobrir credenciais válidas explorando a fragilidade das senhas
+    (credenciais padrão, combinações triviais ou enumeração controlada) e, a partir daí, obter o
+    <strong>token interno</strong> que permite acessar recursos protegidos. Esse token é a chave para
+    localizar o arquivo de flag no sistema ou para chamar um endpoint que retorna a flag diretamente.
+  </p>
+  <hr>
+  <p>
+    No enredo do ambiente, a falta de controles básicos (rate-limit, políticas de senha, proteção
+    CSRF mínima) e a existência de credenciais padrão são consequências de pressões de entrega
+    anteriores. O desafio pretende ensinar duas lições práticas: <em>(1)</em> a gravidade de deixar
+    senhas triviais em produção e <em>(2)</em> a importância de validar corretamente tokens e respostas
+    antes de confiar em autenticações automáticas.
+  </p>
+  <p>
+    Em termos de narrativa, você está desmontando uma construção frágil deixada para trás — uma porta
+    aberta que só espera a sequência correta de tentativas para revelar o segredo interno. Boa caçada.
+  </p>
+attribution: ""
+value: 10
+type: container
+extra:
+  initial: 10
+  decay: 10
+  minimum: 10
+connection_info: Container
+flags:
+  - ITAU2025{weak_passwords_ruin_security}
+hints:
+  - content: >-
+      O token de login não é a flag; use-o no endpoint indicado pela aplicação para avançar.
+    cost: 5

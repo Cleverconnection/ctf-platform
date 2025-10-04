@@ -1,0 +1,421 @@
+/*
+Copyright The ORAS Authors.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package option
+
+import (
+	"errors"
+	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
+	"testing"
+
+	"github.com/spf13/cobra"
+	"oras.land/oras-go/v2/errdef"
+	"oras.land/oras-go/v2/registry/remote/errcode"
+	oerrors "oras.land/oras/cmd/oras/internal/errors"
+)
+
+func TestTarget_Parse_oci_path(t *testing.T) {
+	opts := Target{
+		Path:         "foo",
+		RawReference: "mocked/test",
+	}
+	cmd := &cobra.Command{}
+	ApplyFlags(&opts, cmd.Flags())
+	if err := opts.Parse(cmd); err != nil {
+		t.Errorf("Target.Parse() error = %v", err)
+	}
+	if opts.Type != TargetTypeOCILayout {
+		t.Errorf("Target.Parse() failed, got %q, want %q", opts.Type, TargetTypeOCILayout)
+	}
+}
+
+func TestTarget_Parse_oci(t *testing.T) {
+	opts := Target{IsOCILayout: true}
+	cmd := &cobra.Command{}
+	ApplyFlags(&opts, cmd.Flags())
+	err := opts.Parse(cmd)
+	if !errors.Is(err, errdef.ErrInvalidReference) {
+		t.Errorf("Target.Parse() error = %v, expect %v", err, errdef.ErrInvalidReference)
+	}
+	if opts.Type != TargetTypeOCILayout {
+		t.Errorf("Target.Parse() failed, got %q, want %q", opts.Type, TargetTypeOCILayout)
+	}
+}
+
+func TestTarget_Parse_oci_and_oci_path(t *testing.T) {
+	opts := Target{}
+	cmd := &cobra.Command{}
+	opts.ApplyFlags(cmd.Flags())
+	cmd.SetArgs([]string{"--oci-layout", "foo", "--oci-layout-path", "foo"})
+	if err := cmd.Execute(); err != nil {
+		t.Errorf("cmd.Execute() error = %v", err)
+	}
+	err := opts.Parse(cmd)
+	if err == nil {
+		t.Errorf("expect Target.Parse() to fail but not")
+	}
+	if !strings.Contains(err.Error(), "cannot be used at the same time") {
+		t.Errorf("expect error message to contain 'cannot be used at the same time' but not")
+	}
+
+}
+
+func TestTarget_Parse_to_oci_and_oci_path(t *testing.T) {
+	opts := Target{}
+	cmd := &cobra.Command{}
+	opts.setFlagDetails("to", "destination")
+	opts.ApplyFlags(cmd.Flags())
+	cmd.SetArgs([]string{"--to-oci-layout", "foo", "--to-oci-layout-path", "foo"})
+	if err := cmd.Execute(); err != nil {
+		t.Errorf("cmd.Execute() error = %v", err)
+	}
+	err := opts.Parse(cmd)
+	if err == nil {
+		t.Errorf("expect Target.Parse() to fail but not")
+	}
+	if !strings.Contains(err.Error(), "cannot be used at the same time") {
+		t.Errorf("expect error message to contain 'cannot be used at the same time' but not")
+	}
+
+}
+
+func TestTarget_Parse_remote(t *testing.T) {
+	opts := Target{
+		RawReference: "mocked/test",
+		IsOCILayout:  false,
+	}
+	cmd := &cobra.Command{}
+	ApplyFlags(&opts, cmd.Flags())
+	if err := opts.Parse(cmd); err != nil {
+		t.Errorf("Target.Parse() error = %v", err)
+	}
+	if opts.Type != TargetTypeRemote {
+		t.Errorf("Target.Parse() failed, got %q, want %q", opts.Type, TargetTypeRemote)
+	}
+}
+
+func TestTarget_Parse_remote_err(t *testing.T) {
+	opts := Target{
+		RawReference: "/test",
+		IsOCILayout:  false,
+	}
+	cmd := &cobra.Command{}
+	ApplyFlags(&opts, cmd.Flags())
+	if err := opts.Parse(cmd); err == nil {
+		t.Errorf("expect Target.Parse() to fail but not")
+	}
+}
+
+func Test_parseOCILayoutReference(t *testing.T) {
+	opts := Target{
+		RawReference: "/test",
+		IsOCILayout:  false,
+	}
+	tests := []struct {
+		name    string
+		raw     string
+		want    string
+		want1   string
+		wantErr bool
+	}{
+		{"Empty input", "", "", "", true},
+		{"Empty path and tag", ":", "", "", true},
+		{"Empty path and digest", "@", "", "", false},
+		{"Empty digest", "path@", "path", "", false},
+		{"Empty tag", "path:", "path", "", false},
+		{"path and digest", "path@digest", "path", "digest", false},
+		{"path and tag", "path:tag", "path", "tag", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			opts.RawReference = tt.raw
+			err := opts.parseOCILayoutReference()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseOCILayoutReference() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if opts.Path != tt.want {
+				t.Errorf("parseOCILayoutReference() got = %v, want %v", opts.Path, tt.want)
+			}
+			if opts.Reference != tt.want1 {
+				t.Errorf("parseOCILayoutReference() got1 = %v, want %v", opts.Reference, tt.want1)
+			}
+		})
+	}
+}
+
+func TestTarget_ModifyError_ociLayout(t *testing.T) {
+	errClient := errors.New("client error")
+	opts := &Target{}
+	cmd := &cobra.Command{}
+	got, modified := opts.ModifyError(cmd, errClient)
+
+	if modified {
+		t.Errorf("expect error not to be modified but received true")
+	}
+	if got != errClient {
+		t.Errorf("unexpected output from Target.ModifyError() = %v", got)
+	}
+	if want := "Error:"; cmd.ErrPrefix() != want {
+		t.Errorf("unexpected error prefix set on command: %q, want %q", cmd.ErrPrefix(), want)
+	}
+}
+
+func TestTarget_ModifyError_NotFound(t *testing.T) {
+	// test errdef.ErrNotFound error returned by oci layout and remote
+	tests := []struct {
+		name            string
+		targetType      string
+		rawReference    string
+		wantErrPrefix   string
+		wantModifiedErr error
+		wantModified    bool
+		isOCILayout     bool
+	}{
+		{
+			name:          "not found",
+			targetType:    TargetTypeOCILayout,
+			rawReference:  "oci-dir:latest",
+			wantErrPrefix: "Error:",
+			wantModified:  false,
+			isOCILayout:   true,
+		},
+		{
+			name:          "remote not found",
+			targetType:    TargetTypeRemote,
+			rawReference:  "localhost:5000/test:latest",
+			wantErrPrefix: oerrors.RegistryErrorPrefix,
+			wantModified:  true,
+			isOCILayout:   false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			opts := &Target{
+				Type:         tt.targetType,
+				RawReference: tt.rawReference,
+				IsOCILayout:  tt.isOCILayout,
+			}
+			cmd := &cobra.Command{}
+			originalErr := fmt.Errorf("not found: %w", errdef.ErrNotFound)
+			got, modified := opts.ModifyError(cmd, originalErr)
+			if modified != tt.wantModified {
+				t.Errorf("Target.ModifyError() modified = %v, want %v", modified, tt.wantModified)
+			}
+			if got != originalErr {
+				t.Errorf("Target.ModifyError() got = %v, want %v", got, originalErr)
+			}
+			if cmd.ErrPrefix() != tt.wantErrPrefix {
+				t.Errorf("Target.ModifyError() cmd.ErrPrefix() = %q, want %q", cmd.ErrPrefix(), tt.wantErrPrefix)
+			}
+		})
+	}
+}
+
+func TestTarget_ModifyError_errResponse(t *testing.T) {
+	errResp := &errcode.ErrorResponse{
+		URL:        &url.URL{Host: "localhost:5000"},
+		StatusCode: http.StatusUnauthorized,
+		Errors: errcode.Errors{
+			errcode.Error{
+				Code:    "NAME_INVALID",
+				Message: "invalid name",
+			},
+		},
+	}
+
+	opts := &Target{
+		Type:         TargetTypeRemote,
+		RawReference: "localhost:5000/test:v1",
+	}
+	cmd := &cobra.Command{}
+	got, modified := opts.ModifyError(cmd, errResp)
+
+	if !modified {
+		t.Errorf("expected error to be modified but received %v", modified)
+	}
+	if got.Error() != errResp.Errors.Error() {
+		t.Errorf("unexpected output from Target.ModifyError() = %v", got)
+	}
+	if cmd.ErrPrefix() != oerrors.RegistryErrorPrefix {
+		t.Errorf("unexpected error prefix set on command: %q, want %q", cmd.ErrPrefix(), oerrors.RegistryErrorPrefix)
+	}
+}
+
+func TestTarget_ModifyError_errInvalidReference(t *testing.T) {
+	errResp := &errcode.ErrorResponse{
+		URL:        &url.URL{Host: "registry-1.docker.io"},
+		StatusCode: http.StatusUnauthorized,
+		Errors: errcode.Errors{
+			errcode.Error{
+				Code:    "000",
+				Message: "mocked message",
+				Detail:  map[string]string{"mocked key": "mocked value"},
+			},
+		},
+	}
+	opts := &Target{
+		Type:         TargetTypeRemote,
+		RawReference: "invalid-reference",
+	}
+	cmd := &cobra.Command{}
+	got, modified := opts.ModifyError(cmd, errResp)
+
+	if modified {
+		t.Errorf("expect error not to be modified but received true")
+	}
+	if got != errResp {
+		t.Errorf("unexpected output from Target.ModifyError() = %v", got)
+	}
+	if want := "Error:"; cmd.ErrPrefix() != want {
+		t.Errorf("unexpected error prefix set on command: %q, want %q", cmd.ErrPrefix(), want)
+	}
+}
+
+func TestTarget_ModifyError_errHostNotMatching(t *testing.T) {
+	errResp := &errcode.ErrorResponse{
+		URL:        &url.URL{Host: "registry-1.docker.io"},
+		StatusCode: http.StatusUnauthorized,
+		Errors: errcode.Errors{
+			errcode.Error{
+				Code:    "000",
+				Message: "mocked message",
+				Detail:  map[string]string{"mocked key": "mocked value"},
+			},
+		},
+	}
+
+	opts := &Target{
+		Type:         TargetTypeRemote,
+		RawReference: "registry-2.docker.io/test:tag",
+	}
+	cmd := &cobra.Command{}
+	_, modified := opts.ModifyError(cmd, errResp)
+	if modified {
+		t.Errorf("expect error not to be modified but received true")
+	}
+	if want := "Error:"; cmd.ErrPrefix() != want {
+		t.Errorf("unexpected error prefix set on command: %q, want %q", cmd.ErrPrefix(), want)
+	}
+}
+
+func TestTarget_ModifyError_dockerHint(t *testing.T) {
+	type fields struct {
+		Remote       Remote
+		RawReference string
+		Type         string
+		Reference    string
+		Path         string
+		IsOCILayout  bool
+	}
+	errs := errcode.Errors{
+		errcode.Error{
+			Code:    "000",
+			Message: "mocked message",
+			Detail:  map[string]string{"mocked key": "mocked value"},
+		},
+	}
+	tests := []struct {
+		name        string
+		fields      fields
+		err         error
+		modifiedErr *oerrors.Error
+	}{
+		{
+			"namespace already exists",
+			fields{
+				Type:         TargetTypeRemote,
+				RawReference: "docker.io/library/alpine:latest",
+			},
+			&errcode.ErrorResponse{
+				URL:        &url.URL{Host: "registry-1.docker.io"},
+				StatusCode: http.StatusUnauthorized,
+				Errors:     errs,
+			},
+			&oerrors.Error{Err: errs},
+		},
+		{
+			"no namespace",
+			fields{
+				Type:         TargetTypeRemote,
+				RawReference: "docker.io",
+			},
+			&errcode.ErrorResponse{
+				URL:        &url.URL{Host: "registry-1.docker.io"},
+				StatusCode: http.StatusUnauthorized,
+				Errors:     errs,
+			},
+			&oerrors.Error{Err: errs},
+		},
+		{
+			"not 401",
+			fields{
+				Type:         TargetTypeRemote,
+				RawReference: "docker.io",
+			},
+			&errcode.ErrorResponse{
+				URL:        &url.URL{Host: "registry-1.docker.io"},
+				StatusCode: http.StatusConflict,
+				Errors:     errs,
+			},
+			&oerrors.Error{Err: errs},
+		},
+		{
+			"should hint",
+			fields{
+				Type:         TargetTypeRemote,
+				RawReference: "docker.io/alpine",
+				Path:         "oras test",
+			},
+			&errcode.ErrorResponse{
+				URL:        &url.URL{Host: "registry-1.docker.io"},
+				StatusCode: http.StatusUnauthorized,
+				Errors:     errs,
+			},
+			&oerrors.Error{
+				Err:            errs,
+				Recommendation: "Namespace seems missing. Do you mean ` docker.io/library/alpine`?",
+			},
+		},
+	}
+
+	cmd := &cobra.Command{}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			opts := &Target{
+				Remote:       tt.fields.Remote,
+				RawReference: tt.fields.RawReference,
+				Type:         tt.fields.Type,
+				Reference:    tt.fields.Reference,
+				Path:         tt.fields.Path,
+				IsOCILayout:  tt.fields.IsOCILayout,
+			}
+			got, modified := opts.ModifyError(cmd, tt.err)
+			gotErr, ok := got.(*oerrors.Error)
+			if !ok {
+				t.Errorf("expecting error to be *oerrors.Error but received %T", got)
+			}
+			if gotErr.Err.Error() != tt.modifiedErr.Err.Error() || gotErr.Usage != tt.modifiedErr.Usage || gotErr.Recommendation != tt.modifiedErr.Recommendation {
+				t.Errorf("Target.ModifyError() error = %v, wantErr %v", gotErr, tt.modifiedErr)
+			}
+			if !modified {
+				t.Errorf("Failed to modify %v", tt.err)
+			}
+		})
+	}
+}

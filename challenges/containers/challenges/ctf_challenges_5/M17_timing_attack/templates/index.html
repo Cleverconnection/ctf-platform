@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Timing Attack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Portal de Exec</h1>
+      </div>
+    </div>
+    <p>Observe diferenças de tempo nas respostas para identificar credenciais válidas.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Login</h2>
+      <label>Usuário <input id="user"></label>
+      <label>Senha <input id="pass"></label>
+      <button id="login">Enviar</button>
+      <pre id="result">Teste diferentes valores e meça a latência.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+
+  <script>
+    document.getElementById('login').addEventListener('click', async () => {
+      const start = performance.now();
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('user').value,
+          password: document.getElementById('pass').value
+        })
+      });
+      const data = await res.json();
+      const duration = performance.now() - start;
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2) + `\nTempo: ${duration.toFixed(2)}ms`;
+    });
+  </script>
+</body>
+</html>

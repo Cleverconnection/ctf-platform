@@ -1,0 +1,5 @@
+[config]
+url = http://localhost:8000
+access_token = ctfd_6f9876fb16277049367b3397755626c54ea1025b94046fc0042683f0eac31ae8
+verify_ssl = false
+

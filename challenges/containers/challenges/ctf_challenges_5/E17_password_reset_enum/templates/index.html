@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Redefinição Generosa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Redefinição Generosa</h1>
+      </div>
+    </div>
+    <p>Descubra como o endpoint de recuperação responde a identificadores sequenciais.</p>
+  </header>
+
+  <main>
+    <form id="forgot-form" aria-describedby="forgot-help">
+      <p id="forgot-help" class="sr-only">Informe o identificador do usuário para solicitar o link de redefinição.</p>
+
+      <label for="user">ID do usuário</label>
+      <input id="user" name="user" placeholder="1001" inputmode="numeric" />
+
+      <button type="submit">Solicitar reset</button>
+    </form>
+
+    <section aria-live="polite" aria-atomic="true">
+      <h2>Resposta</h2>
+      <pre id="forgot-output" role="status">O retorno da solicitação aparecerá aqui.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a> · <a href="/flag">Endpoint</a>
+  </footer>
+
+  <script>
+    const form = document.getElementById('forgot-form');
+    const output = document.getElementById('forgot-output');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      output.textContent = 'Consultando...';
+
+      try {
+        const res = await fetch(`/forgot?id=${encodeURIComponent(form.user.value)}`);
+        const raw = await res.text();
+        let data;
+        try { data = JSON.parse(raw); } catch { data = raw; }
+        output.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+      } catch (error) {
+        output.textContent = 'Erro: ' + error;
+      }
+    });
+  </script>
+</body>
+</html>

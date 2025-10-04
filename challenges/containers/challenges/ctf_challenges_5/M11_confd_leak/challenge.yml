@@ -1,0 +1,29 @@
+name: Config Leak
+category: Web
+value: 20
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    O config server entrega todo o dicionário de configuração para qualquer cliente autenticado. A versão de produção
+    inclui segredos e a flag do ambiente.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL do config server (container individual)</strong>
+  </p>
+  <p><strong>Objetivo:</strong><br>Solicitar <code>/api/config/prod</code> e coletar a flag retornada.</p>
+  <hr>
+  <p>Retorne apenas valores necessários aos clientes ou implemente filtros por ambiente.</p>
+attribution: ""
+type: container
+extra:
+  initial: 20
+  decay: 0
+  minimum: 20
+connection_info: Container
+flags:
+  - ITAU2025{config_endpoint_leak}
+hints:
+  - content: >-
+      A resposta do ambiente <code>prod</code> contém o campo <code>secrets.flag</code> diretamente.
+    cost: 5

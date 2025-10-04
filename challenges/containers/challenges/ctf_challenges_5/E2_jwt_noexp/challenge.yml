@@ -1,0 +1,38 @@
+name: Chave Persistente
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    Uma API interna de autenticação emite tokens de acesso para aplicações de backoffice sem expiração adequada
+    e com validações permissivas no payload. Tokens antigos continuam aceitos e campos de função influenciam
+    privilégios de acesso.
+  </p>
+  <p>
+    Será exibida uma <strong>URL de acesso individual</strong> para interação com a API durante a execução.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL de acesso individual (fornecida ao iniciar a instância do desafio)</strong>
+  </p>
+  <p>
+    <strong>Objetivo:</strong><br>
+    Obter um token válido e elevar privilégios ao ajustar o payload, acessando o recurso protegido que expõe a flag.
+  </p>
+  <hr>
+  <p>
+    O desafio reforça a necessidade de expiração curta, rotação de chaves e validação rigorosa de claims.
+  </p>
+attribution: ""
+value: 10
+type: container
+extra:
+  initial: 10
+  decay: 10
+  minimum: 10
+connection_info: Container
+flags:
+  - ITAU2025{jwt_without_expiration}
+hints:
+  - content: >-
+      Inspecione o token e o payload; há um campo de função sem expiração para explorar.
+    cost: 5

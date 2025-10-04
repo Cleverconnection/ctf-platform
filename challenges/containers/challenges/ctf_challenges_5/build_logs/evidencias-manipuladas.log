@@ -1,0 +1,47 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 306B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim
+#2 DONE 0.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/python:3.11-slim@sha256:a0939570b38cddeb861b8e75d20b1c8218b21562b18f301171904b544e8cf228
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 159B done
+#5 DONE 0.0s
+
+#6 [2/7] WORKDIR /app
+#6 CACHED
+
+#7 [3/7] COPY app.py /app/
+#7 CACHED
+
+#8 [4/7] COPY templates /app/templates
+#8 CACHED
+
+#9 [5/7] COPY static /app/static
+#9 CACHED
+
+#10 [6/7] COPY logs /app/logs
+#10 ERROR: failed to calculate checksum of ref edbcf24b-cd9f-46f6-862f-72a0afd6279a::mx2z8mafn7i566oo9fi0elacs: "/logs": not found
+------
+ > [6/7] COPY logs /app/logs:
+------
+Dockerfile:6
+--------------------
+   4 |     COPY templates /app/templates
+   5 |     COPY static /app/static
+   6 | >>> COPY logs /app/logs
+   7 |     RUN pip install flask
+   8 |     ENV FLAG="ITAU2025{log_tamper_flag}"
+--------------------
+ERROR: failed to build: failed to solve: failed to compute cache key: failed to calculate checksum of ref edbcf24b-cd9f-46f6-862f-72a0afd6279a::mx2z8mafn7i566oo9fi0elacs: "/logs": not found
+[ERR] falha em M20_log_forensics_tamper, veja ./build_logs/evidencias-manipuladas.log

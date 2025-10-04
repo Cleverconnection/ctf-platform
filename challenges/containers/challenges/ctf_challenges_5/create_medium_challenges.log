@@ -1,0 +1,889 @@
+Iniciando criação/importação desafios médios
+CTFD_URL=http://localhost:8000
+----
+Processando: M01_auth_bypass_logic
+ctf challenge add "M01_auth_bypass_logic" (idempotente)...
+Tentando instalar/criar (ignore-existing) M01_auth_bypass_logic ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M01_auth_bypass_logic. Vou continuar (verifique logs).
+Procurando id remoto para: [MFA sem Ordem]
+[WARN] Não achei ID remoto para 'MFA sem Ordem' (diretório M01_auth_bypass_logic). Talvez não foi criado.
+----
+Processando: M02_jwt_kid_attack
+ctf challenge add "M02_jwt_kid_attack" (idempotente)...
+Tentando instalar/criar (ignore-existing) M02_jwt_kid_attack ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M02_jwt_kid_attack. Vou continuar (verifique logs).
+Procurando id remoto para: [Token Confuso]
+[WARN] Não achei ID remoto para 'Token Confuso' (diretório M02_jwt_kid_attack). Talvez não foi criado.
+----
+Processando: M03_ssrf_internal_svc
+ctf challenge add "M03_ssrf_internal_svc" (idempotente)...
+Tentando instalar/criar (ignore-existing) M03_ssrf_internal_svc ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M03_ssrf_internal_svc. Vou continuar (verifique logs).
+Procurando id remoto para: [Proxy Cego]
+[WARN] Não achei ID remoto para 'Proxy Cego' (diretório M03_ssrf_internal_svc). Talvez não foi criado.
+----
+Processando: M04_concurrent_transfer_race
+ctf challenge add "M04_concurrent_transfer_race" (idempotente)...
+Tentando instalar/criar (ignore-existing) M04_concurrent_transfer_race ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M04_concurrent_transfer_race. Vou continuar (verifique logs).
+Procurando id remoto para: [Corrida de Transferências]
+[WARN] Não achei ID remoto para 'Corrida de Transferências' (diretório M04_concurrent_transfer_race). Talvez não foi criado.
+----
+Processando: M05_payment_replay
+ctf challenge add "M05_payment_replay" (idempotente)...
+Tentando instalar/criar (ignore-existing) M05_payment_replay ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M05_payment_replay. Vou continuar (verifique logs).
+Procurando id remoto para: [Pagamentos Replay]
+[WARN] Não achei ID remoto para 'Pagamentos Replay' (diretório M05_payment_replay). Talvez não foi criado.
+----
+Processando: M06_xml_dos_xxe_combo
+ctf challenge add "M06_xml_dos_xxe_combo" (idempotente)...
+Tentando instalar/criar (ignore-existing) M06_xml_dos_xxe_combo ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M06_xml_dos_xxe_combo. Vou continuar (verifique logs).
+Procurando id remoto para: [XML Explosivo]
+[WARN] Não achei ID remoto para 'XML Explosivo' (diretório M06_xml_dos_xxe_combo). Talvez não foi criado.
+----
+Processando: M07_insecure_deserialize
+ctf challenge add "M07_insecure_deserialize" (idempotente)...
+Tentando instalar/criar (ignore-existing) M07_insecure_deserialize ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M07_insecure_deserialize. Vou continuar (verifique logs).
+Procurando id remoto para: [Job Java Inseguro]
+[WARN] Não achei ID remoto para 'Job Java Inseguro' (diretório M07_insecure_deserialize). Talvez não foi criado.
+----
+Processando: M08_supply_chain_devops
+ctf challenge add "M08_supply_chain_devops" (idempotente)...
+Tentando instalar/criar (ignore-existing) M08_supply_chain_devops ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M08_supply_chain_devops. Vou continuar (verifique logs).
+Procurando id remoto para: [Artifact Exposure]
+[WARN] Não achei ID remoto para 'Artifact Exposure' (diretório M08_supply_chain_devops). Talvez não foi criado.
+----
+Processando: M09_privilege_escalation_api
+ctf challenge add "M09_privilege_escalation_api" (idempotente)...
+Tentando instalar/criar (ignore-existing) M09_privilege_escalation_api ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M09_privilege_escalation_api. Vou continuar (verifique logs).
+Procurando id remoto para: [Patch Indireto]
+[WARN] Não achei ID remoto para 'Patch Indireto' (diretório M09_privilege_escalation_api). Talvez não foi criado.
+----
+Processando: M10_ssrf_s3_misuse
+ctf challenge add "M10_ssrf_s3_misuse" (idempotente)...
+Tentando instalar/criar (ignore-existing) M10_ssrf_s3_misuse ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M10_ssrf_s3_misuse. Vou continuar (verifique logs).
+Procurando id remoto para: [Proxy S3 Interno]
+[WARN] Não achei ID remoto para 'Proxy S3 Interno' (diretório M10_ssrf_s3_misuse). Talvez não foi criado.
+----
+Processando: M11_confd_leak
+ctf challenge add "M11_confd_leak" (idempotente)...
+Tentando instalar/criar (ignore-existing) M11_confd_leak ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M11_confd_leak. Vou continuar (verifique logs).
+Procurando id remoto para: [Config Leak]
+[WARN] Não achei ID remoto para 'Config Leak' (diretório M11_confd_leak). Talvez não foi criado.
+----
+Processando: M12_otp_bypass
+ctf challenge add "M12_otp_bypass" (idempotente)...
+Tentando instalar/criar (ignore-existing) M12_otp_bypass ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M12_otp_bypass. Vou continuar (verifique logs).
+Procurando id remoto para: [OTP Previsível]
+[WARN] Não achei ID remoto para 'OTP Previsível' (diretório M12_otp_bypass). Talvez não foi criado.
+----
+Processando: M13_csrf_api
+ctf challenge add "M13_csrf_api" (idempotente)...
+Tentando instalar/criar (ignore-existing) M13_csrf_api ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M13_csrf_api. Vou continuar (verifique logs).
+Procurando id remoto para: [CSRF API]
+[WARN] Não achei ID remoto para 'CSRF API' (diretório M13_csrf_api). Talvez não foi criado.
+----
+Processando: M14_account_merge_bug
+ctf challenge add "M14_account_merge_bug" (idempotente)...
+Tentando instalar/criar (ignore-existing) M14_account_merge_bug ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M14_account_merge_bug. Vou continuar (verifique logs).
+Procurando id remoto para: [Fusão Curiosa]
+[WARN] Não achei ID remoto para 'Fusão Curiosa' (diretório M14_account_merge_bug). Talvez não foi criado.
+----
+Processando: M15_ssrf_internal_metadata
+ctf challenge add "M15_ssrf_internal_metadata" (idempotente)...
+Tentando instalar/criar (ignore-existing) M15_ssrf_internal_metadata ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M15_ssrf_internal_metadata. Vou continuar (verifique logs).
+Procurando id remoto para: [Metadata SSRF]
+[WARN] Não achei ID remoto para 'Metadata SSRF' (diretório M15_ssrf_internal_metadata). Talvez não foi criado.
+----
+Processando: M16_race_balance_check
+ctf challenge add "M16_race_balance_check" (idempotente)...
+Tentando instalar/criar (ignore-existing) M16_race_balance_check ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M16_race_balance_check. Vou continuar (verifique logs).
+Procurando id remoto para: [Saldo Negativo Corrida]
+[WARN] Não achei ID remoto para 'Saldo Negativo Corrida' (diretório M16_race_balance_check). Talvez não foi criado.
+----
+Processando: M17_timing_attack
+ctf challenge add "M17_timing_attack" (idempotente)...
+Tentando instalar/criar (ignore-existing) M17_timing_attack ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M17_timing_attack. Vou continuar (verifique logs).
+Procurando id remoto para: [Timing Attack]
+[WARN] Não achei ID remoto para 'Timing Attack' (diretório M17_timing_attack). Talvez não foi criado.
+----
+Processando: M18_insecure_file_serve
+ctf challenge add "M18_insecure_file_serve" (idempotente)...
+Tentando instalar/criar (ignore-existing) M18_insecure_file_serve ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M18_insecure_file_serve. Vou continuar (verifique logs).
+Procurando id remoto para: [Object Storage Exposto]
+[WARN] Não achei ID remoto para 'Object Storage Exposto' (diretório M18_insecure_file_serve). Talvez não foi criado.
+----
+Processando: M19_authorization_header_splitting
+ctf challenge add "M19_authorization_header_splitting" (idempotente)...
+Tentando instalar/criar (ignore-existing) M19_authorization_header_splitting ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M19_authorization_header_splitting. Vou continuar (verifique logs).
+Procurando id remoto para: [Authorization Split]
+[WARN] Não achei ID remoto para 'Authorization Split' (diretório M19_authorization_header_splitting). Talvez não foi criado.
+----
+Processando: M20_log_forensics_tamper
+ctf challenge add "M20_log_forensics_tamper" (idempotente)...
+Tentando instalar/criar (ignore-existing) M20_log_forensics_tamper ...
+Traceback (most recent call last):
+  File "/root/.local/bin/ctf", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/__main__.py", line 150, in main
+    ret = fire.Fire(COMMANDS["cli"], serialize=lambda r: None if isinstance(r, int) else r)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 576, in install
+    local_challenges = self._resolve_all_challenges()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/cli/challenges.py", line 1131, in _resolve_all_challenges
+    challenges.append(Challenge(challenge_path))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 192, in __init__
+    self.image = self._process_challenge_image(self.get("image"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/pipx/venvs/ctfcli/lib/python3.11/site-packages/ctfcli/core/challenge.py", line 231, in _process_challenge_image
+    subprocess.call(
+  File "/usr/lib/python3.11/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+[WARN] install retornou erro para M20_log_forensics_tamper. Vou continuar (verifique logs).
+Procurando id remoto para: [Forensics Tamper]
+[WARN] Não achei ID remoto para 'Forensics Tamper' (diretório M20_log_forensics_tamper). Talvez não foi criado.
+========================
+Resumo de operações
+Instalados/links locais -> remotos:
+  
+Solutions postadas (challenge_ids):
+  
+Falhas encontradas:
+  install:M01_auth_bypass_logic
+  noid:M01_auth_bypass_logic
+  install:M02_jwt_kid_attack
+  noid:M02_jwt_kid_attack
+  install:M03_ssrf_internal_svc
+  noid:M03_ssrf_internal_svc
+  install:M04_concurrent_transfer_race
+  noid:M04_concurrent_transfer_race
+  install:M05_payment_replay
+  noid:M05_payment_replay
+  install:M06_xml_dos_xxe_combo
+  noid:M06_xml_dos_xxe_combo
+  install:M07_insecure_deserialize
+  noid:M07_insecure_deserialize
+  install:M08_supply_chain_devops
+  noid:M08_supply_chain_devops
+  install:M09_privilege_escalation_api
+  noid:M09_privilege_escalation_api
+  install:M10_ssrf_s3_misuse
+  noid:M10_ssrf_s3_misuse
+  install:M11_confd_leak
+  noid:M11_confd_leak
+  install:M12_otp_bypass
+  noid:M12_otp_bypass
+  install:M13_csrf_api
+  noid:M13_csrf_api
+  install:M14_account_merge_bug
+  noid:M14_account_merge_bug
+  install:M15_ssrf_internal_metadata
+  noid:M15_ssrf_internal_metadata
+  install:M16_race_balance_check
+  noid:M16_race_balance_check
+  install:M17_timing_attack
+  noid:M17_timing_attack
+  install:M18_insecure_file_serve
+  noid:M18_insecure_file_serve
+  install:M19_authorization_header_splitting
+  noid:M19_authorization_header_splitting
+  install:M20_log_forensics_tamper
+  noid:M20_log_forensics_tamper

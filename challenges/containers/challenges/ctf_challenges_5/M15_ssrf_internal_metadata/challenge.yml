@@ -1,0 +1,29 @@
+name: Metadata SSRF
+category: Web
+value: 20
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    O gerador de relatórios aceita URLs externas e não bloqueia o endereço reservado do serviço de metadados. Com isso,
+    é possível exfiltrar credenciais internas da nuvem.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>Ferramenta de relatórios (container individual)</strong>
+  </p>
+  <p><strong>Objetivo:</strong><br>Solicitar <code>http://127.0.0.1:8080/metadata/iam</code> via proxy e obter a flag em <code>SecretAccessKey</code>.</p>
+  <hr>
+  <p>Ambientes cloud precisam bloquear acesso a <code>169.254.169.254</code> e hosts equivalentes.</p>
+attribution: ""
+type: container
+extra:
+  initial: 20
+  decay: 0
+  minimum: 20
+connection_info: Container
+flags:
+  - ITAU2025{metadata_ssrf_flag}
+hints:
+  - content: >-
+      Use o parâmetro <code>url</code> apontando para <code>http://127.0.0.1:8080/metadata/iam</code> e leia o JSON retornado.
+    cost: 5

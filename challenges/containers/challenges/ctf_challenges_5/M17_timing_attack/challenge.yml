@@ -1,0 +1,29 @@
+name: Timing Attack
+category: Web
+value: 20
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    A API de login compara senha caractere a caractere com atraso perceptível. Usuários válidos geram respostas mais
+    lentas mesmo quando a senha está errada, permitindo enumeração e brute force temporal.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>Portal executivo (container individual)</strong>
+  </p>
+  <p><strong>Objetivo:</strong><br>Descobrir as credenciais corretas via análise temporal e recuperar a flag.</p>
+  <hr>
+  <p>Comparações seguras devem ser constantes e sem early return.</p>
+attribution: ""
+type: container
+extra:
+  initial: 20
+  decay: 0
+  minimum: 20
+connection_info: Container
+flags:
+  - ITAU2025{timing_leak_username}
+hints:
+  - content: >-
+      Teste <code>executivo</code> como usuário e meça o tempo por caractere para deduzir a senha numérica.
+    cost: 5

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Importação XML</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Importação XML</h1>
+      </div>
+    </div>
+    <p>Envie XMLs para o importador de extratos e observe como o backend interpreta o conteúdo.</p>
+  </header>
+
+  <main>
+    <form id="xml-form" aria-describedby="xml-help">
+      <p id="xml-help" class="sr-only">Cole o conteúdo XML que será enviado ao servidor para processamento.</p>
+
+      <label for="xml">Conteúdo XML</label>
+      <textarea id="xml" name="xml">&lt;?xml version="1.0"?&gt;
+<extrato>
+  <customer>0001</customer>
+  <message>Envie um XML diferente</message>
+</extrato></textarea>
+
+      <button type="submit">Processar</button>
+    </form>
+
+    <section aria-live="polite" aria-atomic="true">
+      <h2>Resposta</h2>
+      <pre id="xml-output" role="status">Envie um XML para visualizar o processamento.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a> · <a href="/flag">Endpoint</a>
+  </footer>
+
+  <script>
+    const form = document.getElementById('xml-form');
+    const output = document.getElementById('xml-output');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      output.textContent = 'Processando...';
+
+      try {
+        const formData = new FormData();
+        formData.append('xml', form.xml.value);
+
+        const res = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const raw = await res.text();
+        let data;
+        try { data = JSON.parse(raw); } catch { data = { raw }; }
+
+        if (!res.ok) {
+          output.textContent = JSON.stringify(
+            { error: true, status: res.status, ...data }, null, 2
+          );
+        } else {
+          output.textContent = JSON.stringify(data, null, 2);
+        }
+      } catch (error) {
+        output.textContent = 'Erro: ' + error;
+      }
+    });
+  </script>
+</body>
+</html>

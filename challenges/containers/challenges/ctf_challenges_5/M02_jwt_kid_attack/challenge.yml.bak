@@ -1,0 +1,36 @@
+name: Token Confuso
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    A API de integrações aceita tokens de fornecedores e seleciona a chave secreta através do campo <code>kid</code>
+    informado no cabeçalho. Para manter compatibilidade, o time deixou o algoritmo <code>none</code> habilitado e não
+    sanitiza o valor do identificador da chave.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL da API de tokens (container individual)</strong>
+  </p>
+  <p><strong>Objetivo:</strong><br> Forjar um JWT administrativo e acessar o endpoint <code>/api/admin</code> para capturar a flag.</p>
+  <hr>
+  <p>Tokens assinados precisam de algoritmos fixos e chaves imutáveis, não fornecidas pelo cliente.</p>
+attribution: ''
+value: 20
+type: container
+
+extra:
+  initial: 20
+  decay: 0
+  minimum: 20
+connection_info: Container
+
+flags:
+- ITAU2025{jwt_kid_none_alg}
+
+hints:
+- content: >-
+    Utilize um cabeçalho com <code>"alg": "none"</code> e remova a assinatura para
+    que o servidor aceite o payload editado.
+  cost: 5
+
+state: hidden

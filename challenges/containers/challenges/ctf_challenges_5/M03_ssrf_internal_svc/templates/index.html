@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Proxy de Integração</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Proxy de Monitoramento</h1>
+      </div>
+    </div>
+    <p>Ferramenta que requisita URLs remotas para os times internos. A validação de destino é frágil.</p>
+  </header>
+
+  <main>
+    <section>
+      <label>URL a consultar <input id="url" value="https://example.org"></label>
+      <label>Chave interna (opcional) <input id="key"></label>
+      <button id="fetch">Buscar</button>
+    </section>
+
+    <section aria-live="polite">
+      <h2>Resposta</h2>
+      <pre id="output">Informe uma URL. Será possível alcançar serviços internos?</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+
+  <script>
+    document.getElementById('fetch').addEventListener('click', async () => {
+      const target = document.getElementById('url').value;
+      const key = document.getElementById('key').value;
+      const params = new URLSearchParams({ url: target });
+      if (key) params.set('internal_key', key);
+      const res = await fetch('/api/fetch?' + params.toString());
+      const body = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(body, null, 2);
+    });
+  </script>
+</body>
+</html>

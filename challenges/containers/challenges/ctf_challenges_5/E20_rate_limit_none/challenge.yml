@@ -1,0 +1,37 @@
+name: Validador Infinito
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    Um verificador de código temporário permite tentativas ilimitadas e usa um espaço de busca reduzido.
+    Sem bloqueio progressivo, é viável adivinhar o código por tentativa e erro.
+  </p>
+  <p>
+    Será exibida uma <strong>URL de acesso individual</strong> do validador para envio de códigos.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL de acesso individual (fornecida ao iniciar a instância do desafio)</strong>
+  </p>
+  <p>
+    <strong>Objetivo:</strong><br>
+    Realizar tentativas controladas até encontrar o código aceito e obter a flag.
+  </p>
+  <hr>
+  <p>
+    Rate limiting, bloqueios temporários e entropia adequada são fundamentais.
+  </p>
+attribution: ""
+value: 10
+type: container
+extra:
+  initial: 10
+  decay: 10
+  minimum: 10
+connection_info: Container
+flags:
+  - ITAU2025{rate_limit_none}
+hints:
+  - content: >-
+      Use paralelismo moderado e monitore a primeira resposta de sucesso.
+    cost: 5

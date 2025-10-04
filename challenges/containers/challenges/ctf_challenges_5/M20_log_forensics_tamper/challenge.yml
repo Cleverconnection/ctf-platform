@@ -1,0 +1,29 @@
+name: Forensics Tamper
+category: Web
+value: 20
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    O console de logs permite registrar mensagens arbitrárias sem sanitização e exporta os arquivos como estão. Isso
+    possibilita inserir quebras de linha para ocultar eventos ou sobrescrever campos críticos.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>Console de logs (container individual)</strong>
+  </p>
+  <p><strong>Objetivo:</strong><br>Exportar <code>audit.zip</code> e encontrar a flag registrada nos eventos.</p>
+  <hr>
+  <p>Logs precisam escapar entradas do usuário e manter trilha imutável.</p>
+attribution: ""
+type: container
+extra:
+  initial: 20
+  decay: 0
+  minimum: 20
+connection_info: Container
+flags:
+  - ITAU2025{log_tamper_flag}
+hints:
+  - content: >-
+      Baixe o zip de logs ou injete uma linha com quebras usando <code>\n</code> para mascarar registros.
+    cost: 5

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Download Genérico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Download Genérico</h1>
+      </div>
+    </div>
+    <p>Informe caminhos para o serviço de arquivos e avalie o que pode ser acessado.</p>
+  </header>
+
+  <main>
+    <form id="download-form" aria-describedby="download-help">
+      <p id="download-help" class="sr-only">Forneça o caminho desejado para baixar o conteúdo retornado pelo backend.</p>
+
+      <label for="path">Caminho do arquivo</label>
+      <input id="path" name="path" placeholder="flag_token.txt" />
+
+      <button type="submit">Baixar</button>
+    </form>
+
+    <section aria-live="polite" aria-atomic="true">
+      <h2>Resposta</h2>
+      <textarea id="download-output" readonly role="status">Veja o conteúdo dos arquivos baixados.</textarea>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a> · <a href="/flag">Endpoint</a>
+  </footer>
+
+  <script>
+    const form = document.getElementById('download-form');
+    const output = document.getElementById('download-output');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      output.value = 'Baixando...';
+
+      try {
+        const res = await fetch(`/download?path=${encodeURIComponent(form.path.value)}`);
+        const text = await res.text();
+        if (!res.ok) {
+          output.value = `Erro ${res.status}: ${text}`;
+          return;
+        }
+        output.value = text;
+      } catch (error) {
+        output.value = 'Erro: ' + error;
+      }
+    });
+  </script>
+</body>
+</html>

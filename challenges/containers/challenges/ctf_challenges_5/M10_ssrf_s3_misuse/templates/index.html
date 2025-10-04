@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Proxy S3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Proxy de Objetos</h1>
+      </div>
+    </div>
+    <p>Ferramenta consulta URLs assinadas enviadas por parceiros e retorna o conteúdo para o navegador do operador.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Requisitar URL</h2>
+      <label>URL <input id="url" value="https://example.org"></label>
+      <button id="fetch">Buscar</button>
+    </section>
+
+    <section>
+      <h2>Resposta</h2>
+      <pre id="output">Use uma URL assinada para bucket interno.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+
+  <script>
+    document.getElementById('fetch').addEventListener('click', async () => {
+      const url = document.getElementById('url').value;
+      const params = new URLSearchParams({ url });
+      const res = await fetch('/api/proxy?' + params.toString());
+      const data = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>

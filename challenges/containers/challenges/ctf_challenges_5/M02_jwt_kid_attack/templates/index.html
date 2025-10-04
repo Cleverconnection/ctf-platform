@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · JWT kid Confusion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Portal de Tokens</h1>
+      </div>
+    </div>
+    <p>O gateway aceita JWTs externos e escolhe a chave com base no cabeçalho <code>kid</code> informado pelo cliente.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Token de exemplo</h2>
+      <p>Use o JWT emitido para entender o formato aceito pela API de administração.</p>
+      <textarea readonly rows="6">{{ sample_token }}</textarea>
+    </section>
+
+    <section>
+      <h2>Consultar área restrita</h2>
+      <label>Bearer token <textarea id="token" rows="6">{{ sample_token }}</textarea></label>
+      <button id="send">Enviar</button>
+      <pre id="output">Envie um token com o header manipulável para alterar algoritmo ou chave.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+
+  <script>
+    document.getElementById('send').addEventListener('click', async () => {
+      const token = document.getElementById('token').value.trim();
+      const res = await fetch('/api/admin', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      const body = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(body, null, 2);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+name: Transporte Opcional
+category: Web
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    Um serviço opera simultaneamente em HTTP e HTTPS sem forçar redirecionamento seguro. Sessões e dados
+    podem transitar em claro quando acessados sem TLS.
+  </p>
+  <p>
+    A instância expõe uma <strong>URL de acesso individual</strong> que pode ser consultada via HTTP.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>URL de acesso individual (fornecida ao iniciar a instância do desafio)</strong>
+  </p>
+  <p>
+    <strong>Objetivo:</strong><br>
+    Capturar informações de sessão acessando o serviço de forma não cifrada e utilizá-las para recuperar a flag.
+  </p>
+  <hr>
+  <p>
+    Forçar HTTPS, definir atributos de cookie e bloquear portas inseguras são medidas básicas.
+  </p>
+attribution: ""
+value: 10
+type: container
+extra:
+  initial: 10
+  decay: 10
+  minimum: 10
+connection_info: Container
+flags:
+  - ITAU2025{tls_redirect_missing}
+hints:
+  - content: >-
+      Acesse via HTTP simples e verifique cookies ou JSON de sessão.
+    cost: 5

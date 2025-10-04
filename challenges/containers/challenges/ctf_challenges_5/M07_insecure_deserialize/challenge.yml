@@ -1,0 +1,29 @@
+name: Job Java Inseguro
+category: Web
+value: 20
+description: |-
+  <p><strong>Cenário:</strong></p>
+  <p>
+    A fila de jobs em Java recebe objetos serializados por HTTP e deserializa sem qualquer validação. Um atacante pode
+    forjar objetos da classe <code>TrustedEnvelope</code> ou encadear gadgets para executar ações arbitrárias.
+  </p>
+  <p>
+    <code>Recurso / Acesso:</code>
+    <strong>Instância Java (container ou VM) exposta via HTTP</strong>
+  </p>
+  <p><strong>Objetivo:</strong><br>Construir um payload serializado que produza a ação <code>admin</code> e revele a flag.</p>
+  <hr>
+  <p>Deserilização de objetos deve ser evitada ou protegida com whitelists e assinaturas.</p>
+attribution: ""
+type: container
+extra:
+  initial: 20
+  decay: 0
+  minimum: 20
+connection_info: Container
+flags:
+  - ITAU2025{java_insecure_deserialize}
+hints:
+  - content: >-
+      Compile a classe <code>TrustedEnvelope</code> e gere um objeto com <code>action=admin</code> usando <code>java -jar ysoserial.jar</code> ou código próprio.
+    cost: 5

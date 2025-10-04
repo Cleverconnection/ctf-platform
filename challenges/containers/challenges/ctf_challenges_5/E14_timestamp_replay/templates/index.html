@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Transação Repetida</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Transação Repetida</h1>
+      </div>
+    </div>
+    <p>Envie transferências com timestamp arbitrário e avalie como o motor valida os eventos.</p>
+  </header>
+
+  <main>
+    <form id="transfer-form" aria-describedby="transfer-help">
+      <p id="transfer-help" class="sr-only">Informe conta, valor e timestamp para simular uma transferência processada pelo backend.</p>
+
+      <label for="account">Conta destino</label>
+      <input id="account" name="account" placeholder="000123" autocomplete="off" />
+
+      <label for="amount">Valor (máx 100)</label>
+      <input id="amount" name="amount" type="number" value="50" min="0" step="1" />
+
+      <label for="timestamp">Timestamp ISO</label>
+      <input id="timestamp" name="timestamp" value="2025-01-01T12:00:00+00:00" autocomplete="off" />
+
+      <button type="submit">Enviar transferência</button>
+    </form>
+
+    <section aria-live="polite" aria-atomic="true">
+      <h2>Resposta</h2>
+      <pre id="transfer-output" role="status">Os detalhes da transação serão exibidos aqui.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a> · <a href="/flag">Endpoint</a>
+  </footer>
+
+  <script>
+    const form = document.getElementById('transfer-form');
+    const output = document.getElementById('transfer-output');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      output.textContent = 'Enviando...';
+
+      try {
+        const res = await fetch('/transfer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account: form.account.value,
+            amount: Number(form.amount.value),
+            timestamp: form.timestamp.value
+          })
+        });
+
+        const raw = await res.text();
+        let data;
+        try { data = JSON.parse(raw); } catch { data = { raw }; }
+
+        if (!res.ok) {
+          output.textContent = JSON.stringify(
+            { error: true, status: res.status, ...data }, null, 2
+          );
+        } else {
+          output.textContent = JSON.stringify(data, null, 2);
+        }
+      } catch (error) {
+        output.textContent = 'Erro: ' + error;
+      }
+    });
+  </script>
+</body>
+</html>

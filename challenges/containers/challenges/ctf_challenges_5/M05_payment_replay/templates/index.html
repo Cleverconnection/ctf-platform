@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Pagamentos Replay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Motor de Pagamentos</h1>
+      </div>
+    </div>
+    <p>O serviço replica notificações de pagamento mas não possui chaves idempotentes. Envios repetidos acumulam bônus.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Enviar pagamento</h2>
+      <label>Referência <input id="reference" value="boleto-998"></label>
+      <label>Valor <input id="amount" value="1250"></label>
+      <label>Canal <input id="channel" value="app"></label>
+      <button id="send">Processar</button>
+    </section>
+
+    <section>
+      <h2>Ledger</h2>
+      <button id="refresh">Atualizar</button>
+      <pre id="ledger">Nenhum pagamento registrado.</pre>
+    </section>
+
+    <section>
+      <h2>Flag</h2>
+      <button id="flag">Checar</button>
+      <pre id="flag-output">Acumule R$ 5.000 em pagamentos aprovados.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+
+  <script>
+    async function refresh() {
+      const res = await fetch('/api/ledger');
+      const data = await res.json();
+      document.getElementById('ledger').textContent = JSON.stringify(data, null, 2);
+    }
+
+    document.getElementById('refresh').addEventListener('click', refresh);
+    refresh();
+
+    document.getElementById('send').addEventListener('click', async () => {
+      const payload = {
+        reference: document.getElementById('reference').value,
+        amount: document.getElementById('amount').value,
+        channel: document.getElementById('channel').value
+      };
+      const res = await fetch('/api/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      document.getElementById('ledger').textContent = JSON.stringify(data, null, 2);
+    });
+
+    document.getElementById('flag').addEventListener('click', async () => {
+      const res = await fetch('/flag');
+      const text = await res.text();
+      document.getElementById('flag-output').textContent = text;
+    });
+  </script>
+</body>
+</html>

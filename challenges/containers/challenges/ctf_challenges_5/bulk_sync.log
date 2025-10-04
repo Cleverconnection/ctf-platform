@@ -1,0 +1,26 @@
+Starting bulk sync at Sun Sep 28 05:53:46 -03 2025
+Scanning for challenge.yml...
+Found 20 challenge.yml files.
+Adding challenge directories to .ctf/config...
+[add] ./E1_auth_weak_pwd
+[add] ./E14_timestamp_replay
+[add] ./E6_sql_injection_basic
+[add] ./E7_xxe_simple
+[add] ./E19_file_download_path
+[add] ./E11_info_headers
+[add] ./E20_rate_limit_none
+[add] ./E13_log_injection
+[add] ./E12_query_creds
+[add] ./E3_idor_account
+[add] ./E5_file_read
+[add] ./E16_public_backup
+[add] ./E8_upload_exec_hint
+[add] ./E17_password_reset_enum
+[add] ./E9_cors_wildcard
+[add] ./E2_jwt_noexp
+[add] ./E4_open_redirect
+[add] ./E10_exposed_swagger
+[add] ./E15_weak_crypto
+[add] ./E18_missing_tls_redirect
+Running ctf challenge lint...
+Challenge file at /home/challenges/containers/challenges/ctf_challenges_5/challenge.yml could not be found

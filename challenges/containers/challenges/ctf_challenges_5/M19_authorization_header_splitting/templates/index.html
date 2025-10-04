@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Itaú CTF · Header Split</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand" role="img" aria-label="Itaú CTF">
+      <div class="brand-badge" aria-hidden="true"><span>i</span></div>
+      <div class="brand-title">
+        <div class="eyebrow">Itaú CTF</div>
+        <h1>Gateway Legacy</h1>
+      </div>
+    </div>
+    <p>O cabeçalho Authorization usa pares <code>token=</code> e <code>role=</code> separados por ponto e vírgula sem validação.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Chamada autenticada</h2>
+      <label>Header Authorization <input id="auth" value="Token token={{ token }}"></label>
+      <button id="call">Requisitar</button>
+    </section>
+
+    <section>
+      <h2>Resposta</h2>
+      <pre id="output">Experimente adicionar <code>;role=admin</code> ao cabeçalho.</pre>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CECyber Play Labs - Itaú CTF · <a href="/health">Healthcheck</a>
+  </footer>
+
+  <script>
+    document.getElementById('call').addEventListener('click', async () => {
+      const header = document.getElementById('auth').value;
+      const res = await fetch('/api/secure', {
+        headers: { 'Authorization': header }
+      });
+      const data = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
