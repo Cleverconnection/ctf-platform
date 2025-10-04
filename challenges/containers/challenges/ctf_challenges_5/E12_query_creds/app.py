@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file, abort
+from flask import Flask, request, render_template, send_file, abort, redirect
 import os
 from pathlib import Path
 
@@ -8,13 +8,14 @@ BACKUP_DIR = Path("/app/backups")
 BACKUP_DIR.mkdir(exist_ok=True)
 BACKUP_TOKEN = "OPS-2025-SECRET"
 BACKUP_FILE = BACKUP_DIR / "backup.enc"
+REDIRECT_MAP = {"backup": f"/backup?token={BACKUP_TOKEN}"}
 if not BACKUP_FILE.exists():
     BACKUP_FILE.write_text("token=" + BACKUP_TOKEN + "\n", encoding="utf-8")
 
 
 @app.route("/")
 def index():
-    return render_template("index.html", backup_token=BACKUP_TOKEN)
+    return render_template("index.html", redirect_id="backup")
 
 
 @app.route("/health")
@@ -36,6 +37,15 @@ def flag():
     if proof == BACKUP_TOKEN:
         return FLAG
     return "forbidden", 403
+
+
+@app.route("/r/<link_id>")
+def redirect_link(link_id: str):
+    target = REDIRECT_MAP.get(link_id)
+    if not target:
+        abort(404)
+    app.logger.info("redirect %s from %s", link_id, request.remote_addr)
+    return redirect(target, code=302)
 
 
 if __name__ == "__main__":

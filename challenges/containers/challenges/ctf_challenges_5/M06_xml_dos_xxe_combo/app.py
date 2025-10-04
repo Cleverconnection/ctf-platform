@@ -1,9 +1,15 @@
 import os
+from pathlib import Path
+
 from flask import Flask, jsonify, render_template, request
 from lxml import etree
 
 app = Flask(__name__)
 FLAG = os.environ.get("FLAG", "ITAU2025{xml_xxe_resource_exhaust}")
+FLAG_PATH = Path("/app/data/flag.txt")
+FLAG_PATH.parent.mkdir(parents=True, exist_ok=True)
+if not FLAG_PATH.exists():
+    FLAG_PATH.write_text(FLAG, encoding="utf-8")
 
 
 @app.route("/")
@@ -40,7 +46,7 @@ def sample():
 
 @app.route("/flag")
 def flag():
-    return FLAG
+    return "restrito: utilize a importação XML", 403
 
 
 if __name__ == "__main__":

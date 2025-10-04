@@ -1,20 +1,26 @@
-from flask import Flask, render_template, send_file, request
 import os
+import subprocess
 from pathlib import Path
-import zipfile
+
+from flask import Flask, render_template, request, send_file
 
 app = Flask(__name__)
 FLAG = os.environ.get("FLAG", "ITAU2025{public_backup_flag}")
 BACKUP_DIR = Path("/app/public")
 BACKUP_DIR.mkdir(exist_ok=True)
 ZIP_PATH = BACKUP_DIR / "backup.zip"
+ZIP_PASSWORD = "restore-2025"
+PLAINTEXT_FLAG = BACKUP_DIR / "flag.txt"
 PROOF_CODE = "public-backup-2025"
 
 if not ZIP_PATH.exists():
-    flag_file = BACKUP_DIR / "flag.txt"
-    flag_file.write_text(f"proof={PROOF_CODE}\nflag={FLAG}\n", encoding="utf-8")
-    with zipfile.ZipFile(ZIP_PATH, "w") as archive:
-        archive.write(flag_file, arcname="flag.txt")
+    PLAINTEXT_FLAG.write_text(f"proof={PROOF_CODE}\nflag={FLAG}\n", encoding="utf-8")
+    subprocess.run(
+        ["zip", "-j", "-P", ZIP_PASSWORD, str(ZIP_PATH), str(PLAINTEXT_FLAG)],
+        check=True,
+        capture_output=True,
+    )
+    PLAINTEXT_FLAG.unlink(missing_ok=True)
 
 
 @app.route("/")
@@ -34,10 +40,7 @@ def download():
 
 @app.route("/flag")
 def flag():
-    proof = request.args.get("proof", "")
-    if proof == PROOF_CODE:
-        return FLAG
-    return "forbidden", 403
+    return "flag disponível apenas dentro do backup protegido", 403
 
 
 if __name__ == "__main__":

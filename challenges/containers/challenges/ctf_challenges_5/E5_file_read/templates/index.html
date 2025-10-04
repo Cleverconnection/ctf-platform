@@ -43,6 +43,29 @@
 
       <textarea id="file-output" readonly aria-live="polite" aria-atomic="true">O conteúdo solicitado aparecerá aqui.</textarea>
     </section>
+
+    <section>
+      <h2>Handshake seguro</h2>
+      <form id="handshake-form" aria-describedby="handshake-help">
+        <p id="handshake-help" class="sr-only">Confirme que leu as instruções antes de gerar um token transitório.</p>
+        <label for="handshake-ack">
+          <input id="handshake-ack" type="checkbox" /> Li o aviso de uso controlado
+        </label>
+        <button type="submit">Gerar token temporário</button>
+      </form>
+      <p id="handshake-status" aria-live="polite">Nenhum token ativo.</p>
+    </section>
+
+    <section>
+      <h2>Resgatar flag</h2>
+      <form id="flag-form" aria-describedby="flag-help">
+        <p id="flag-help" class="sr-only">Informe o token emitido pelo handshake para solicitar a flag.</p>
+        <label for="token">Token autorizado</label>
+        <input id="token" name="token" placeholder="cole o token gerado" required />
+        <button type="submit">Solicitar flag</button>
+      </form>
+      <pre id="flag-output" aria-live="polite" aria-atomic="true">Solicite um token válido antes de tentar resgatar a flag.</pre>
+    </section>
   </main>
 
   <footer>
@@ -52,6 +75,12 @@
   <script>
     const form = document.getElementById('read-form');
     const output = document.getElementById('file-output');
+    const handshakeForm = document.getElementById('handshake-form');
+    const handshakeAck = document.getElementById('handshake-ack');
+    const handshakeStatus = document.getElementById('handshake-status');
+    const flagForm = document.getElementById('flag-form');
+    const tokenInput = document.getElementById('token');
+    const flagOutput = document.getElementById('flag-output');
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -73,6 +102,65 @@
         output.value = text;
       } catch (error) {
         output.value = 'Erro: ' + error;
+      }
+    });
+
+    handshakeForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!handshakeAck.checked) {
+        handshakeStatus.textContent = 'Marque a confirmação antes de prosseguir.';
+        return;
+      }
+
+      handshakeStatus.textContent = 'Gerando token...';
+
+      try {
+        const res = await fetch('/handshake', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ aceite: 'sim' })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          handshakeStatus.textContent = data.error ? `Erro: ${data.error}` : 'Não foi possível gerar o token.';
+          return;
+        }
+
+        tokenInput.value = data.token;
+        handshakeStatus.textContent = `Token ativo por ${data.expires_in} segundos.`;
+        flagOutput.textContent = 'Token pronto. Use o formulário abaixo para consumi-lo.';
+      } catch (error) {
+        handshakeStatus.textContent = 'Erro: ' + error;
+      }
+    });
+
+    flagForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const token = tokenInput.value.trim();
+      if (!token) {
+        flagOutput.textContent = 'Informe um token válido.';
+        return;
+      }
+
+      flagOutput.textContent = 'Validando token...';
+
+      try {
+        const res = await fetch('/flag', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          flagOutput.textContent = data.error ? `Erro: ${data.error}` : 'Solicitação negada.';
+          return;
+        }
+
+        flagOutput.textContent = data.flag;
+        tokenInput.value = '';
+        handshakeStatus.textContent = 'Token consumido. Gere outro se precisar repetir o processo.';
+      } catch (error) {
+        flagOutput.textContent = 'Erro: ' + error;
       }
     });
   </script>

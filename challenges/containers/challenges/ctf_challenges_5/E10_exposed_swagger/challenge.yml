@@ -3,19 +3,19 @@ category: Web
 description: |-
   <p><strong>Cenário:</strong></p>
   <p>
-    A documentação interativa da API foi publicada com exemplos que incluem chaves reais e rotas internas
-    esquecidas. A interface permite executar chamadas diretamente.
+    Um manual de integração baseado em OpenAPI vazou em um portal público sem a remoção das credenciais de
+    exemplo. As rotas internas descritas ainda respondem quando acionadas com os dados corretos.
   </p>
   <p>
-    Será exibida uma <strong>URL de acesso individual</strong> da documentação exposta.
+    Você receberá uma <strong>URL individual</strong> do portal técnico para auditar o conteúdo publicado.
   </p>
   <p>
     <code>Recurso / Acesso:</code>
-    <strong>URL de acesso individual (fornecida ao iniciar a instância do desafio)</strong>
+    <strong>URL individual fornecida ao iniciar a instância do desafio</strong>
   </p>
   <p>
     <strong>Objetivo:</strong><br>
-    Extrair dos exemplos a informação necessária para autenticar e obter a flag na rota apropriada.
+    Revisar a documentação e utilizar os exemplos de autenticação para alcançar o endpoint que expõe a flag.
   </p>
   <hr>
   <p>
@@ -33,5 +33,5 @@ flags:
   - ITAU2025{swagger_spill}
 hints:
   - content: >-
-      Abra o swagger.json e verifique valores "example" em chaves de autenticação.
+      Procure pela especificação OpenAPI publicada e avalie os valores "example" em campos de autenticação.
     cost: 5

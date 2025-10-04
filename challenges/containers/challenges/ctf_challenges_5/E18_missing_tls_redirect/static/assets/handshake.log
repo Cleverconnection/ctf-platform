@@ -1,0 +1,9 @@
+# Captura resumida do handshake oportunista
+# Analisada pelos times de rede em 2025-01-12
+
+2025-01-12T10:45:12Z client -> gateway : TLS ClientHello (downgraded to TLS 1.0)
+2025-01-12T10:45:12Z gateway -> client : HTTP 302 /login (X-Forwarded-Proto: https)
+2025-01-12T10:45:13Z client -> gateway : POST /login ticket=BOARDING-2025
+2025-01-12T10:45:13Z gateway -> client : 200 handshake_token=9f... ttl=300
+
+Observação: o gateway confia no cabeçalho X-Forwarded-Proto e entrega a sessão mesmo em conexões inseguras.

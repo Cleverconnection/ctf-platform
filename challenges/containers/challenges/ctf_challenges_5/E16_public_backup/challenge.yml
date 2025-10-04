@@ -33,5 +33,6 @@ flags:
   - ITAU2025{public_backup_flag}
 hints:
   - content: >-
-      Baixe o backup.zip, extraia e procure por flag/proof no conteúdo.
+      Baixe o backup.zip, utilize a senha formada por <em>restore</em> + ano do incidente e procure por flag/proof no
+      conteúdo extraído.
     cost: 5

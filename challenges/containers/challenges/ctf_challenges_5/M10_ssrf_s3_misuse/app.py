@@ -14,6 +14,11 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/info")
+def info():
+    return render_template("info.html", bucket=INTERNAL_BUCKET)
+
+
 @app.route("/health")
 def health():
     return "OK", 200

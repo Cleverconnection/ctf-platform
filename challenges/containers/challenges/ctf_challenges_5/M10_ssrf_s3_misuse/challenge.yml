@@ -3,14 +3,17 @@ category: Web
 description: |-
   <p><strong>Cenário:</strong></p>
   <p>
-    O proxy de integrações aceita qualquer URL assinada e realiza a requisição a partir da rede interna. Buckets
-    privados expostos em localhost podem ser lidos via SSRF.
+    Um proxy corporativo foi publicado para que equipes externas enviem URLs de objetos S3 a serem lidos pela rede
+    interna. A validação atual é mínima e confia demais na entrada do usuário.
   </p>
   <p>
     <code>Recurso / Acesso:</code>
     <strong>URL do proxy de objetos (container individual)</strong>
   </p>
-  <p><strong>Objetivo:</strong><br>Buscar <code>http://127.0.0.1:8080/s3/internal/statements/report.txt</code> e capturar a flag.</p>
+  <p><strong>Objetivo:</strong><br>
+    Investigar a documentação interna do proxy, entender como ele trata destinos locais e obter o relatório sensível
+    hospedado no bucket interno.
+  </p>
   <hr>
   <p>Proxies para S3 devem validar host de destino e restringir buckets acessíveis.</p>
 attribution: ''
@@ -28,8 +31,8 @@ flags:
 
 hints:
 - content: >-
-    Informe a URL interna do bucket no parâmetro <code>url</code>; a requisição ocorrerá
-    a partir do backend.
+    Leia a página de notas internas do proxy e observe como os analistas acessam buckets locais. Ajuste a URL enviada
+    para reproduzir o comportamento descrito.
   cost: 5
 
 state: hidden

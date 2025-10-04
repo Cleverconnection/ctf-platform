@@ -33,5 +33,5 @@ flags:
   - ITAU2025{creds_in_query}
 hints:
   - content: >-
-      Procure um link com ?token=<valor> na página inicial.
+      Siga o link divulgado no painel: ele passa por um redirecionador antes de apontar para o backup com token.
     cost: 5
