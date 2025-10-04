@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-# dummy entrypoint exigido pelo chall-manager; não será executado
-exit 0

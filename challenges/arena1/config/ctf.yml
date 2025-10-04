@@ -1,0 +1,17 @@
+application:
+  showVersionNumber: false
+  showGitHubLinks: false
+  welcomeBanner:
+    showOnFirstStart: false
+
+challenges:
+  showHints: false
+  showSolvedNotifications: true
+  safetyOverride: true
+
+hackingInstructor:
+  isEnabled: false
+
+ctf:
+  showFlagsInNotifications: true
+  showCountryDetailsInNotifications: none

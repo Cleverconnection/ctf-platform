@@ -29,7 +29,7 @@ docker exec -it itau-chall-manager-1 bash -lc '
   CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o main .
   chall-manager-cli scenario \
     --url http://localhost:8080 \
-    --scenario registry:5000/web-102:2 \
+    --scenario registry:5000/web-102:latest \
     --directory . \
     --insecure
 '

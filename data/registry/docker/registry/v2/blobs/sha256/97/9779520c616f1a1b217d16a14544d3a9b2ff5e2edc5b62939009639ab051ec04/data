@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Diretório atual = cenário
+SCENARIO_DIR="."
+SCENARIO_NAME="$(basename "$PWD")"
+
+# Registry alvo (ajuste namespace conforme preferir)
+REGISTRY="localhost:5000/itau/scenarios/${SCENARIO_NAME}:latest"
+
+# Lista arquivos e marca cada um com media type esperado
+mapfile -t FILES < <(find "$SCENARIO_DIR" -type f -printf '%p:application/vnd.ctfer-io.file\n')
+
+echo "[*] Publicando cenário '${SCENARIO_NAME}' em ${REGISTRY} ..."
+oras push --plain-http "$REGISTRY" \
+  --artifact-type application/vnd.ctfer-io.scenario \
+  "${FILES[@]}"
+
+echo "[*] Digest resolvido:"
+oras resolve --plain-http "$REGISTRY"
+

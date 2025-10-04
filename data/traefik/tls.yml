@@ -1,0 +1,8 @@
+tls:
+  certificates:
+    - certFile: /certs/ctf-itau.crt
+      keyFile: /certs/ctf-itau.key
+  options:
+    secure-min-tls12:
+      minVersion: VersionTLS12
+      sniStrict: true

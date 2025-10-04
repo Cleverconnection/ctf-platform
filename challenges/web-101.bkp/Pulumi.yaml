@@ -1,6 +1,0 @@
-name: web-101
-runtime:
-  name: go
-  options:
-    binary: ./main
-description: "Scenario dummy: executado por runner externo."
