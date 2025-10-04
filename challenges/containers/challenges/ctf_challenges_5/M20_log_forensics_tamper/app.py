@@ -15,7 +15,7 @@ def bootstrap():
     LOG_DIR.mkdir(exist_ok=True)
     if not LOG_FILE.exists():
         LOG_FILE.write_text(
-            """2025-02-01 08:00:00;system;startup;engine online\n"
+            "2025-02-01 08:00:00;system;startup;engine online\n"
             "2025-02-01 08:10:12;audit;policy-check;no anomalies\n"
             f"2025-02-01 09:45:00;vault;flag;{FLAG}\n"
         )
