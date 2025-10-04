@@ -1,17 +1,17 @@
-.challenge-card.solved,
-.ctf-challenge.solved,
-.challenge-item.solved {
+:root {
+  --theme-solved: #FC6608;
+}
+
+.challenge-button.challenge-solved,
+[data-bs-theme="light"] .challenge-button.challenge-solved,
+[data-bs-theme="dark"] .challenge-button.challenge-solved {
   background-color: #FC6608 !important;
   color: #ffffff !important;
 }
 
-.challenge-card.solved:hover,
-.ctf-challenge.solved:hover,
-.challenge-item.solved:hover {
+.challenge-button.challenge-solved:hover,
+[data-bs-theme="light"] .challenge-button.challenge-solved:hover,
+[data-bs-theme="dark"] .challenge-button.challenge-solved:hover {
   background-color: #1A4085 !important;
   color: #ffffff !important;
-}
-
-:root {
-  --theme-solved: #FC6608;
 }

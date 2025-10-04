@@ -10,6 +10,10 @@
 
   {% block stylesheets %}
     {{ Assets.css("assets/scss/main.scss") }}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('views.themes', theme='core-beta', path='static/css/override.css') }}"
+    />
   {% endblock %}
 
   {{ Plugins.styles }}
