@@ -22,7 +22,7 @@ RUN pip3 install --no-cache-dir --break-system-packages pulumi pulumi-proxmoxve 
 # Copiar os scenarios para dentro da imagem (opcional)
 # Se preferir manter fora, basta usar volumes no compose
 #COPY ./challenges /scenarios
-#COPY /home/user/itau/challenges /scenarios
+#COPY /home/user/ctf/challenges /scenarios
 
 # Definir diretório de trabalho
 WORKDIR /app

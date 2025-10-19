@@ -6,7 +6,7 @@ SCENARIO_DIR="."
 SCENARIO_NAME="$(basename "$PWD")"
 
 # Registry alvo (ajuste namespace conforme preferir)
-REGISTRY="localhost:5000/itau/scenarios/${SCENARIO_NAME}:latest"
+REGISTRY="localhost:5000/ctf/scenarios/${SCENARIO_NAME}:latest"
 
 # Lista arquivos e marca cada um com media type esperado
 mapfile -t FILES < <(find "$SCENARIO_DIR" -type f -printf '%p:application/vnd.ctfer-io.file\n')

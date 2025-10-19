@@ -1,3 +1,0 @@
----
-- name: start ctfd
-  service: name=ctfd state=started enabled=yes

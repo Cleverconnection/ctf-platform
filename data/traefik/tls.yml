@@ -1,7 +1,7 @@
 tls:
   certificates:
-    - certFile: /certs/ctf-itau.crt
-      keyFile: /certs/ctf-itau.key
+    - certFile: /certs/ctf-platform.crt
+      keyFile: /certs/ctf-platform.key
   options:
     secure-min-tls12:
       minVersion: VersionTLS12

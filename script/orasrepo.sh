@@ -1,5 +1,5 @@
 # Do host
-REG="localhost:5000/itau/scenarios/web-hello:v1"
+REG="localhost:5000/ctf/scenarios/web-hello:v1"
 cd /path/to
 
 # Constrói uma lista Bash onde cada arquivo vira "arquivo:application/vnd.ctfer-io.file"

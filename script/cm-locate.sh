@@ -2,7 +2,7 @@
 set -euo pipefail
 
 CID="${1:-}"; SID="${2:-}"
-CM_ROOT_DEFAULT="/home/user/itau/chall_tmp"
+CM_ROOT_DEFAULT="/home/user/ctf/chall_tmp"
 CM_ROOT="${CM_ROOT:-$CM_ROOT_DEFAULT}"
 ALT_ROOT="${ALT_ROOT:-/opt/chall-manager/chall}"
 

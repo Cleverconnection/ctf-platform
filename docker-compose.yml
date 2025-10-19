@@ -70,7 +70,7 @@ services:
       - ctfd  # Certifique-se que o CTFd esteja rodando antes
 #    labels:
 #      - traefik.enable=true
-#      - traefik.http.routers.chall-manager.rule=Host(`chall-itau.cecyber.com`)  # Substitua pelo domínio desejado
+#      - traefik.http.routers.chall-manager.rule=Host(`chall.example.com`)  # Substitua pelo domínio desejado
 #      - traefik.http.routers.chall-manager.entrypoints=web
 #      - traefik.http.services.chall-manager.loadbalancer.server.port=8080
       # - traefik.http.routers.chall-manager.tls=true  # Se estiver usando TLS
@@ -198,7 +198,7 @@ services:
       - ./challenges:/home/challenges
     labels:
       - traefik.enable=true
-      - traefik.http.routers.ctfd.rule=Host(`ctf-itau.cecyber.com`)
+      - traefik.http.routers.ctfd.rule=Host(`ctf.example.com`)
       - traefik.http.routers.ctfd.entrypoints=websecure
       - traefik.http.routers.ctfd.tls=true
       - traefik.http.services.ctfd.loadbalancer.server.port=8000
@@ -209,7 +209,7 @@ services:
      # - traefik.http.middlewares.ctfd-headers.headers.customrequestheaders.X-Forwarded-Proto=https
      # - traefik.http.routers.ctfd.middlewares=ctfd-headers
 #- traefik.enable=true
-#      - traefik.http.routers.ctfd.rule=Host(`ctf-itau.cecyber.com`)
+#      - traefik.http.routers.ctfd.rule=Host(`ctf.example.com`)
 #      - traefik.http.routers.ctfd.entrypoints=websecure
 #      - traefik.http.routers.ctfd.tls=true
 #      - traefik;http;service;ctfd;loadbalancer.server.port=8000
@@ -231,7 +231,7 @@ services:
     environment:
       DOCKER_HOST: tcp://docker-socket-proxy:2375
       DOCKER_NETWORK: ctf_net
-      BASE_DOMAIN: ctf-itau.cecyber.com
+      BASE_DOMAIN: ctf.example.com
       TRAEFIK_ENTRYPOINT: websecure
       FLAG_SECRET: 123456               # troque em produção
       SPAWNER_API_SECRET: 1234567890    # HMAC — obrigatório

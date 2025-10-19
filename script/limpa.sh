@@ -15,5 +15,5 @@ for t in $(curl -s http://localhost:5000/v2/web-102/tags/list | jq -r '.tags[]')
 done
 
 # GC final
-docker exec -it itau-registry-1 registry garbage-collect --delete-untagged /etc/docker/registry/config.yml
+docker compose exec registry registry garbage-collect --delete-untagged /etc/docker/registry/config.yml
 

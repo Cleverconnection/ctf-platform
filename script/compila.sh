@@ -1,5 +1,5 @@
 # WEB-101
-docker exec -it itau-chall-manager-1 bash -lc '
+docker compose exec chall-manager bash -lc '
   set -e
   cd /scenarios/web-101
   rm -rf .venv __pycache__ .pytest_cache *.pyc .cache
@@ -17,7 +17,7 @@ docker exec -it itau-chall-manager-1 bash -lc '
 '
 
 # WEB-102
-docker exec -it itau-chall-manager-1 bash -lc '
+docker compose exec chall-manager bash -lc '
   set -e
   cd /scenarios/web-102
   rm -rf .venv __pycache__ .pytest_cache *.pyc .cache

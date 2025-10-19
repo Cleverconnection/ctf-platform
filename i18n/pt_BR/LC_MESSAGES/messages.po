@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: itau-ctf\n"
+"Project-Id-Version: ctf-platform\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-04 22:28+0000\n"
 "PO-Revision-Date: 2025-10-04 21:50+0000\n"
@@ -39,12 +39,12 @@ msgid "Password used to log into your account"
 msgstr "Senha usada para entrar na sua conta"
 
 #: ctfd/themes/core-beta/templates/base.html
-msgid "CTF-Itau has ended"
-msgstr "O CTF Itaú foi encerrado"
+msgid "CTF has ended"
+msgstr "O CTF foi encerrado"
 
 #: ctfd/themes/core-beta/templates/base.html
-msgid "Powered by CECyber Play Labs"
-msgstr "Desenvolvido por CECyber Play Labs"
+msgid "Powered by the CTF Platform"
+msgstr "Desenvolvido pela Plataforma CTF"
 
 #: ctfd/themes/core-beta/templates/challenges.html
 msgid "Challenges"

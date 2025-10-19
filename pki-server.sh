@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOMAIN="${1:-ctf-itau.cecyber.com}"
+DOMAIN="${1:-ctf.example.com}"
 BASE_DIR="$(pwd)"
-CERTS_DIR="${BASE_DIR}/data/certs"
 DYN_DIR="${BASE_DIR}/data/traefik"
-CA_CN="CECYBER Internal Root CA 2025-CTF"
+CERTS_DIR="${BASE_DIR}/data/certs"
+CA_CN="CTF Platform Internal Root CA"
 DAYS_CA=3650
 DAYS_LEAF=365
 
 mkdir -p "${CERTS_DIR}" "${DYN_DIR}"
 
-CA_KEY="${CERTS_DIR}/cecyber-rootCA-2025-ctf.key"
-CA_CRT="${CERTS_DIR}/cecyber-rootCA-2025-ctf.crt"
-LEAF_KEY="${CERTS_DIR}/ctf-itau.key"
-LEAF_CSR="${CERTS_DIR}/ctf-itau.csr"
-LEAF_CRT="${CERTS_DIR}/ctf-itau.crt"
+CA_KEY="${CERTS_DIR}/ctf-platform-rootCA.key"
+CA_CRT="${CERTS_DIR}/ctf-platform-rootCA.crt"
+LEAF_KEY="${CERTS_DIR}/ctf-platform.key"
+LEAF_CSR="${CERTS_DIR}/ctf-platform.csr"
+LEAF_CRT="${CERTS_DIR}/ctf-platform.crt"
 
 echo "[*] Gerando CA nova: ${CA_CN}"
 cat > "${CERTS_DIR}/ca.conf" <<EOF
@@ -26,7 +26,7 @@ x509_extensions = v3_ca
 prompt = no
 [ dn ]
 C = BR
-O = CECYBER
+O = CTF Platform
 CN = ${CA_CN}
 [ v3_ca ]
 basicConstraints = critical, CA:true, pathlen:0
@@ -44,14 +44,13 @@ distinguished_name = dn
 req_extensions = v3_req
 [ dn ]
 C = BR
-O = CECYBER
+O = CTF Platform
 CN = ${DOMAIN}
 [ v3_req ]
 basicConstraints = CA:false
 keyUsage = critical, digitalSignature
 extendedKeyUsage = serverAuth
 subjectKeyIdentifier = hash
-authorityKeyIdentifier = keyid,issuer
 subjectAltName = @alt
 [ alt ]
 DNS.1 = ${DOMAIN}
@@ -74,8 +73,8 @@ openssl x509 -req -in "${LEAF_CSR}" -CA "${CA_CRT}" -CAkey "${CA_KEY}" \
 cat > "${DYN_DIR}/tls.yml" <<EOF
 tls:
   certificates:
-    - certFile: /certs/ctf-itau.crt
-      keyFile: /certs/ctf-itau.key
+    - certFile: /certs/ctf-platform.crt
+      keyFile: /certs/ctf-platform.key
   options:
     secure-min-tls12:
       minVersion: VersionTLS12
