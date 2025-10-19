@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7568b35274d0118c89a377a74931e99caed7acd27714da05b2b7f4d4b10c4c67
-size 131
+[mariadb-client]
+port=3306
+socket=/run/mysqld/mysqld.sock
+user=healthcheck
+password=7sMh6soTBL0Hdx4"1u`oGMw>Ob{%m231
+
