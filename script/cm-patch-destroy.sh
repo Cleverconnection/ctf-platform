@@ -2,8 +2,8 @@
 set -euo pipefail
 
 CID="${1:-}"; SID="${2:-}"
-SC_ROOT="${SC_ROOT:-/home/user/itau/challenges}"
-LOCATE="${LOCATE:-/home/user/itau/script/cm-locate.sh}"
+SC_ROOT="${SC_ROOT:-/home/user/ctf/challenges}"
+LOCATE="${LOCATE:-/home/user/ctf/script/cm-locate.sh}"
 
 if [[ -z "$CID" || -z "$SID" ]]; then
   echo "Uso: $0 <challenge_id> <source_id>" >&2

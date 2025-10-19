@@ -1,12 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-CONTAINER=itau-chall-manager-1
+COMPOSE_CMD=${COMPOSE_CMD:-docker compose}
+SERVICE=${SERVICE:-chall-manager}
 SCENARIOS_DIR=/scenarios
 
 echo "[*] Listando desafios disponíveis no container..."
 # pega apenas diretórios dentro de /scenarios
-mapfile -t SCENARIOS < <(docker exec $CONTAINER bash -c "ls -1 $SCENARIOS_DIR")
+mapfile -t SCENARIOS < <($COMPOSE_CMD exec -T "$SERVICE" bash -c "ls -1 $SCENARIOS_DIR")
 
 if [ ${#SCENARIOS[@]} -eq 0 ]; then
   echo "Nenhum desafio encontrado em $SCENARIOS_DIR dentro do container."
@@ -30,10 +31,10 @@ WORKDIR="$SCENARIOS_DIR/$CHALLENGE"
 
 echo "[*] Desafio selecionado: $CHALLENGE"
 echo "[*] Limpando binário antigo..."
-docker exec -w "$WORKDIR" $CONTAINER rm -f main || true
+$COMPOSE_CMD exec -T -w "$WORKDIR" "$SERVICE" rm -f main || true
 
 echo "[*] Compilando main.go dentro do container..."
-docker exec -w "$WORKDIR" $CONTAINER go build -o main main.go
+$COMPOSE_CMD exec -T -w "$WORKDIR" "$SERVICE" go build -o main main.go
 
 echo "[+] Build concluído para o desafio '$CHALLENGE'."
-docker exec -w "$WORKDIR" $CONTAINER ls -lh main
+$COMPOSE_CMD exec -T -w "$WORKDIR" "$SERVICE" ls -lh main

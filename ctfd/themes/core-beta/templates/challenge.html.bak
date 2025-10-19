@@ -207,10 +207,10 @@
                          <!-- <a :href="'https://twitter.com/intent/tweet?url=' + encodeURIComponent(share_url)" role="button" class="btn btn-sm btn-outline-secondary" target="_blank">
                             <i class="fa-brands fa-twitter"></i>
                           </a> -->
-                          <a :href="'https://www.facebook.com/cecyberbr/about?locale=pt_BR' + encodeURIComponent(share_url)" role="button" class="btn btn-sm btn-outline-secondary" target="_blank">
+                          <a :href="'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(share_url)" role="button" class="btn btn-sm btn-outline-secondary" target="_blank">
                             <i class="fa-brands fa-facebook-f"></i>
                           </a>
-                          <a :href="'https://www.linkedin.com/company/cecyber/posts/?feedView=all' + encodeURIComponent(share_url)" role="button" class="btn btn-sm btn-outline-secondary" target="_blank">
+                          <a :href="'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(share_url)" role="button" class="btn btn-sm btn-outline-secondary" target="_blank">
                             <i class="fa-brands fa-linkedin-in"></i>
                           </a>
                         </div>

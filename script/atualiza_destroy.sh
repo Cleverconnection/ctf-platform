@@ -1,6 +1,4 @@
-CONTAINER=itau-chall-manager-1
-
-docker exec -it $CONTAINER bash -lc '
+docker compose exec chall-manager bash -lc '
 set -euo pipefail
 BASE=/tmp/chall-manager/chall
 

@@ -1,4 +1,4 @@
-cd /home/user/itau/challenges/web-101
+cd /home/user/ctf/challenges/web-101
 
 # apaga o antigo
 rm -f Pulumi.yml Pulumi.yaml

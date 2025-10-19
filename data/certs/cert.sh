@@ -8,8 +8,8 @@ x509_extensions=v3_ca
 prompt=no
 [ dn ]
 C=BR
-O=CECYBER
-CN=CECYBER Internal Root CA
+O=CTF Platform
+CN=CTF Platform Internal Root CA
 [ v3_ca ]
 basicConstraints=critical,CA:true,pathlen:0
 keyUsage=critical,keyCertSign,cRLSign
@@ -27,21 +27,21 @@ distinguished_name=dn
 req_extensions=v3_req
 [ dn ]
 C=BR
-O=CECYBER
-CN=ctf-itau.cecyber.com
+O=CTF Platform
+CN=ctf.example.com
 [ v3_req ]
 basicConstraints=CA:false
 keyUsage=critical,digitalSignature
 extendedKeyUsage=serverAuth
 subjectAltName=@alt
 [ alt ]
-DNS.1=ctf-itau.cecyber.com
+DNS.1=ctf.example.com
 # Se o spawner criar subdomínios por desafio, use também:
-# DNS.2=*.ctf-itau.cecyber.com
+# DNS.2=*.ctf.example.com
 EOF
 
-openssl ecparam -name prime256v1 -genkey -noout -out ctf-itau.key
-openssl req -new -key ctf-itau.key -out ctf-itau.csr -config server.conf
-openssl x509 -req -in ctf-itau.csr -CA rootCA.crt -CAkey rootCA.key \
-  -CAcreateserial -out ctf-itau.crt -days 365 -sha256 \
+openssl ecparam -name prime256v1 -genkey -noout -out ctf-platform.key
+openssl req -new -key ctf-platform.key -out ctf-platform.csr -config server.conf
+openssl x509 -req -in ctf-platform.csr -CA rootCA.crt -CAkey rootCA.key \
+  -CAcreateserial -out ctf-platform.crt -days 365 -sha256 \
   -extfile server.conf -extensions v3_req

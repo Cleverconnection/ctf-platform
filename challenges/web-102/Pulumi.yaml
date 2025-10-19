@@ -1,6 +1,0 @@
-name: web-102
-runtime:
-  name: go
-  options:
-    binary: ./main
-description: "Scenario VM Proxmox via scripts Python (web-102)"

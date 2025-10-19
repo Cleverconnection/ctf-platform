@@ -1,11 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-CONTAINER=itau-chall-manager-1
+COMPOSE_CMD=${COMPOSE_CMD:-docker compose}
+SERVICE=${SERVICE:-chall-manager}
 SCENARIOS_DIR=/scenarios
 
 echo "[*] Listando desafios disponíveis no container..."
-mapfile -t SCENARIOS < <(docker exec $CONTAINER bash -c "ls -1 $SCENARIOS_DIR")
+mapfile -t SCENARIOS < <($COMPOSE_CMD exec -T "$SERVICE" bash -c "ls -1 $SCENARIOS_DIR")
 
 if [ ${#SCENARIOS[@]} -eq 0 ]; then
   echo "Nenhum desafio encontrado em $SCENARIOS_DIR dentro do container."
@@ -28,6 +29,6 @@ CHALLENGE=${SCENARIOS[$((choice-1))]}
 WORKDIR="$SCENARIOS_DIR/$CHALLENGE"
 
 echo "[*] Destruindo instância do desafio: $CHALLENGE"
-docker exec -it -w "$WORKDIR" $CONTAINER python3 destroy.py
+$COMPOSE_CMD exec -T -w "$WORKDIR" "$SERVICE" python3 destroy.py
 
 echo "[+] Instância do desafio '$CHALLENGE' destruída (destroy.py executado)."
