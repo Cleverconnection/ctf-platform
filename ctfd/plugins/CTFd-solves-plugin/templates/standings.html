@@ -1,0 +1,55 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="text-center solves-fit-column" scope="col">
+        Place
+      </th>
+      <th class="ps-3 text-start" scope="col">
+        <span x-text="accountType === 'teams' ? 'Team' : 'User'"></span>
+      </th>
+      <th scope="col">
+        Score
+      </th>
+      <template x-for="challenge in challenges">
+        <th class="text-center" scope="col">
+          <div class="d-inline-block solves-challenge-name">
+            <a :href="buildChallengeUrl(challenge.id)">
+              <span x-text="challenge.name"></span>
+            </a>
+          </div>
+        </th>
+      </template>
+    </tr>
+    </thead>
+    <tbody>
+    <template x-for="(standing, index) in standings">
+      <tr>
+        <th class="text-center solves-fit-column" scope="row">
+          <span x-text="index + 1"></span>
+        </th>
+        <td class="text-start">
+          <a :href="buildAccountUrl(accountType, standing.accountId)">
+            <span x-text="standing.name"></span>
+          </a>
+        </td>
+        <td>
+          <span x-text="standing.score"></span>
+        </td>
+        <template x-for="challenge in challenges">
+          <td class="text-center">
+            <template x-if="challenge.id in standing.solves">
+              <i class="fas"
+                 :class="{
+                   'fa-crown text-warning': challenge.id in standing.firstBloods,
+                   'fa-check text-success': !(challenge.id in standing.firstBloods),
+                 }">
+              </i>
+            </template>
+          </td>
+        </template>
+      </tr>
+    </template>
+    </tbody>
+  </table>
+</div>

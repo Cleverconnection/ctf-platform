@@ -1,0 +1,9 @@
+.solves-fit-column {
+    width: 1px;
+}
+
+.solves-challenge-name {
+    writing-mode: vertical-lr;
+    text-orientation: sideways;
+    transform: rotate(180deg);
+}

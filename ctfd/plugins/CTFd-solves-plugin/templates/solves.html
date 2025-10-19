@@ -1,0 +1,83 @@
+{% extends "admin/base.html" %}
+{% set assets_base = "plugins.solves.assets" %}
+
+{% block stylesheets %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for(assets_base, path="css/solves.css") }}">
+{% endblock %}
+
+{% block content %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1>
+        Solves
+      </h1>
+    </div>
+  </div>
+  <div class="container" x-data="solves" x-init='init({{ context | tojson }})'>
+    {% if Configs.user_mode == "users" %}
+      <div class="row">
+        <div class="col-md-12">
+          <div x-data="{standings: userStandings, accountType: 'users'}">
+            {% include "standings.html" %}
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="row pb-4">
+        <div class="col-md-12">
+          <ul class="nav nav-tabs nav-fill" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a id="teams-tab"
+                 class="nav-link active"
+                 href="#team-standings"
+                 data-toggle="tab"
+                 role="tab"
+                 aria-controls="team-standings"
+                 aria-selected="true">
+                Teams
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a id="users-tab"
+                 class="nav-link"
+                 href="#user-standings"
+                 data-toggle="tab"
+                 role="tab"
+                 aria-controls="user-standings"
+                 aria-selected="false">
+                Users
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tab-content">
+            <div id="team-standings"
+                 class="tab-pane fade show active"
+                 role="tabpanel"
+                 aria-labelledby="teams-tab"
+                 x-data="{standings: teamStandings, accountType: 'teams'}">
+              {% include "standings.html" %}
+            </div>
+            <div id="user-standings"
+                 class="tab-pane fade"
+                 role="tabpanel"
+                 aria-labelledby="users-tab"
+                 x-data="{standings: userStandings, accountType: 'users'}">
+              {% include "standings.html" %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script defer src="{{ url_for(assets_base, path="js/solves.js") }}"></script>
+{% endblock %}
